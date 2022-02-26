@@ -12,9 +12,7 @@ mdbook build
 
 ## 配置
 
-书籍配置
-
-_./readme.md_
+书籍配置写在 _readme.md_ yaml 元数据中，形如
 
 ```md
 ---
