@@ -5,7 +5,7 @@
 ## 使用
 
 ```sh
-pnpm i mdbook
+pnpm i @liuli-util/mdbook
 #根据 readme.md 构建 epub 书籍到 dist/ 目录下
 mdbook build
 ```
