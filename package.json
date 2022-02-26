@@ -1,0 +1,48 @@
+{
+  "name": "mdbook-all",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "setup-all": "pnpm --filter . run setup",
+    "postinstall": "npx simple-git-hooks"
+  },
+  "license": "MIT",
+  "sync": [
+    "gitignore",
+    "eslint-ts",
+    "prettier",
+    "commitlint",
+    "simplehooks"
+  ],
+  "prettier": "@liuli-util/prettier-standard-config",
+  "devDependencies": {
+    "prettier": "^2.3.2",
+    "@liuli-util/prettier-standard-config": "^0.1.0",
+    "@commitlint/cli": "^12.1.4",
+    "@liuli-util/commitlint-standard-config": "^0.1.6",
+    "simple-git-hooks": "^2.5.1",
+    "lint-staged": "^11.1.1",
+    "@liuli-util/eslint-config-ts": "^0.2.0"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "yarn commitlint --edit $1",
+    "pre-commit": "yarn lint-staged"
+  },
+  "commitlint": {
+    "extends": [
+      "@liuli-util/commitlint-standard-config"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,css,vue}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@liuli-util/eslint-config-ts"
+    ]
+  }
+}
