@@ -1,5 +1,5 @@
 {
-  "name": "mdbook",
+  "name": "@liuli-util/mdbook",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
@@ -9,6 +9,10 @@
   },
   "bin": {
     "mdbook": "./bin.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@liuli-util/cli": "^3.18.0",
