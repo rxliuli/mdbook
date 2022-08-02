@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:identifier opf:scheme="uuid" id="uuid_id">3e0d1c68-779a-47a9-a8f1-099fa29853f5</dc:identifier>
+    <dc:title>第一卷-量子纠缠</dc:title>
+    <dc:creator opf:file-as="未知" opf:role="aut">未知</dc:creator>
+    <dc:language>zho</dc:language>
+  </metadata>
+  <manifest>
+    <item href="start.xhtml" id="start" media-type="application/xhtml+xml"/>
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="start"/>
+  </spine>
+  <guide/>
+</package>
