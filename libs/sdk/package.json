@@ -15,6 +15,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^28.1.6",
     "@types/markdown-it": "^12.2.3",
+    "@types/mime-types": "^2.1.1",
     "@types/node": "^18.6.3",
     "@types/uuid": "^8.3.4",
     "fs-extra": "^10.1.0",
@@ -30,10 +31,14 @@
   },
   "dependencies": {
     "@liuli-util/async": "^3.4.0",
+    "@xmldom/xmldom": "^0.8.2",
+    "fast-glob": "^3.2.11",
     "fast-xml-parser": "^4.0.9",
     "jszip": "^3.10.0",
     "markdown-it": "^13.0.1",
+    "mime-types": "^2.1.35",
     "node-html-parser": "^5.3.3",
+    "query-selector": "^2.0.0",
     "uuid": "^8.3.2"
   }
 }
