@@ -1,11 +1,15 @@
-import { AsyncArray } from '@liuli-util/async'
-import { copy, mkdirp, readFile, writeFile } from 'fs-extra'
+import async from '@liuli-util/async'
+import fsExtra from 'fs-extra'
 import path from 'path'
-import { RootPath } from './RootPath'
-import parse from 'node-html-parser'
+import { RootPath } from './RootPath.js'
+import nodeHtmlParser from 'node-html-parser'
 import { lookup } from 'mime-types'
 import JSZip from 'jszip'
 import FastGlob from 'fast-glob'
+
+const { AsyncArray } = async
+const { parse } = nodeHtmlParser
+const { mkdirp, readFile, remove, writeFile, copy } = fsExtra
 
 export interface MetaData {
   id: string
@@ -32,10 +36,16 @@ export interface Image {
   buffer: Buffer
 }
 
-export class Builder {
-  private readonly EpubPath = path.resolve(RootPath, 'public/epub')
+export interface GenerateOptions {
+  metadata: MetaData
+  text: Chapter[]
+  toc: Toc[]
+  image: Image[]
+  rootPath: string
+}
 
-  constructor() {}
+export class EpubBuilder {
+  private readonly EpubPath = path.resolve(RootPath, 'public/epub')
 
   async renderChapter(chapter: Chapter) {
     const template = await readFile(path.resolve(this.EpubPath, 'ch000.xhtml'), 'utf-8')
@@ -121,19 +131,7 @@ export class Builder {
     </html>`
   }
 
-  async gen({
-    metadata,
-    text,
-    toc,
-    image,
-    rootPath,
-  }: {
-    metadata: MetaData
-    text: Chapter[]
-    toc: Toc[]
-    image: Image[]
-    rootPath: string
-  }): Promise<Buffer> {
+  async gen({ metadata, text, toc, image, rootPath }: GenerateOptions): Promise<Buffer> {
     const list = ['META-INF/container.xml', 'mimetype']
     await AsyncArray.forEach(list, async (name) => {
       const outPath = path.resolve(rootPath, name)

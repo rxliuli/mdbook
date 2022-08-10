@@ -1,8 +1,7 @@
 import { Command } from 'commander'
-import { mkdirp } from 'fs-extra'
+import { mkdirp, writeFile } from 'fs-extra'
 import * as path from 'path'
-import { genCmd, parse } from './build'
-import { execPromise } from './util/execPromise'
+import { Builder, parse } from './Builder.js'
 
 new Command()
   .addCommand(
@@ -11,14 +10,9 @@ new Command()
       .option('-o,--outDir <outDir>', '输出目录', 'dist')
       .action(async (options: { outDir: string }) => {
         await mkdirp(path.resolve(options.outDir))
+        const res = await new Builder().generate(path.resolve())
         const json = await parse(path.resolve())
-        const cmd = genCmd({
-          cwd: path.resolve(),
-          output: options.outDir,
-          config: json,
-          dev: false,
-        })
-        await execPromise(cmd)
+        await writeFile(path.resolve(options.outDir, json.title + '.epub'), res)
       }),
   )
   .parse()

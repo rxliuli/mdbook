@@ -1,5 +1,6 @@
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom'
 import querySelector from 'query-selector'
+import { it, expect } from '@jest/globals'
 
 const code = `<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
   <dc:identifier opf:scheme="uuid" id="uuid_id">3e0d1c68-779a-47a9-a8f1-099fa29853f5</dc:identifier>

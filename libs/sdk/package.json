@@ -1,19 +1,49 @@
 {
   "name": "@liuli-util/mdbook-sdk",
   "version": "0.1.0",
+  "type": "module",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.esm.js",
+    "require": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
   "scripts": {
-    "build": "liuli-cli build single -t cli",
-    "dev": "liuli-cli build single -t cli -w"
+    "setup": "pnpm build",
+    "build": "liuli-cli build lib",
+    "dev": "liuli-cli build lib -w"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "globals": {
+      "ts-jest": {
+        "useESM": true
+      }
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/*.test.ts"
+    ]
+  },
+  "wallaby": {
+    "env": {
+      "params": {
+        "runner": "--experimental-vm-modules"
+      }
+    }
+  },
   "devDependencies": {
     "@liuli-util/cli": "^3.21.0",
     "@types/fs-extra": "^9.0.13",
-    "@types/jest": "^28.1.6",
     "@types/markdown-it": "^12.2.3",
     "@types/mime-types": "^2.1.1",
     "@types/node": "^18.6.3",
@@ -21,13 +51,8 @@
     "fs-extra": "^10.1.0",
     "jest": "^28.1.3",
     "ts-jest": "^28.0.7",
+    "@jest/globals": "^28.1.3",
     "typescript": "^4.7.4"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/*.test.ts"
-    ]
   },
   "dependencies": {
     "@liuli-util/async": "^3.4.0",

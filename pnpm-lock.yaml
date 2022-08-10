@@ -12,44 +12,59 @@ importers:
 
   apps/cli:
     specifiers:
+      '@jest/globals': ^28.1.3
+      '@liuli-util/async': ^3.4.0
       '@liuli-util/cli': ^3.21.0
+      '@liuli-util/mdbook-sdk': workspace:^
       '@types/fs-extra': ^9.0.13
-      '@types/jest': ^28.1.6
+      '@types/markdown-it': ^12.2.3
       '@types/node': ^18.6.3
+      '@types/uuid': ^8.3.4
       commander: ^9.4.0
       enquirer: ^2.3.6
       esno: ^0.16.3
       fs-extra: ^10.1.0
       gray-matter: ^4.0.3
       jest: ^28.1.3
+      markdown-it: ^13.0.1
       markdown-yaml-metadata-parser: ^3.0.0
+      node-html-parser: ^5.3.3
       rimraf: ^3.0.2
       ts-jest: ^28.0.7
       type-fest: ^2.18.0
       typescript: ^4.7.4
+      uuid: ^8.3.2
+    dependencies:
+      node-html-parser: 5.3.3
     devDependencies:
+      '@jest/globals': 28.1.3
+      '@liuli-util/async': 3.4.0
       '@liuli-util/cli': 3.21.0_typescript@4.7.4
+      '@liuli-util/mdbook-sdk': link:../../libs/sdk
       '@types/fs-extra': 9.0.13
-      '@types/jest': 28.1.6
+      '@types/markdown-it': 12.2.3
       '@types/node': 18.6.3
+      '@types/uuid': 8.3.4
       commander: 9.4.0
       enquirer: 2.3.6
       esno: 0.16.3
       fs-extra: 10.1.0
       gray-matter: 4.0.3
       jest: 28.1.3_@types+node@18.6.3
+      markdown-it: 13.0.1
       markdown-yaml-metadata-parser: 3.0.0
       rimraf: 3.0.2
       ts-jest: 28.0.7_bi2kohzqnxavgozw3csgny5hju
       type-fest: 2.18.0
       typescript: 4.7.4
+      uuid: 8.3.2
 
   libs/sdk:
     specifiers:
+      '@jest/globals': ^28.1.3
       '@liuli-util/async': ^3.4.0
       '@liuli-util/cli': ^3.21.0
       '@types/fs-extra': ^9.0.13
-      '@types/jest': ^28.1.6
       '@types/markdown-it': ^12.2.3
       '@types/mime-types': ^2.1.1
       '@types/node': ^18.6.3
@@ -79,9 +94,9 @@ importers:
       query-selector: 2.0.0
       uuid: 8.3.2
     devDependencies:
+      '@jest/globals': 28.1.3
       '@liuli-util/cli': 3.21.0_typescript@4.7.4
       '@types/fs-extra': 9.0.13
-      '@types/jest': 28.1.6
       '@types/markdown-it': 12.2.3
       '@types/mime-types': 2.1.1
       '@types/node': 18.6.3
@@ -762,7 +777,6 @@ packages:
 
   /@liuli-util/async/3.4.0:
     resolution: {integrity: sha512-rSZsshYR4mBpVNa5WDpAMmVRAUAlzxqaXwSlnI5nHp1fAQ+vjlryBaCqNr189w4poEBl15M6lKzxLLk5SalB4g==}
-    dev: false
 
   /@liuli-util/cli/3.21.0_typescript@4.7.4:
     resolution: {integrity: sha512-gl0HZIdnBVA09dMMJF5HYWCuLdFoGKIYMoh4Nrotbl3FFtAbHGIQ1X7SoN4PHOFP+uPt5yW1IgRNZu5PH/7uMQ==}
@@ -952,13 +966,6 @@ packages:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
-    dev: true
-
-  /@types/jest/28.1.6:
-    resolution: {integrity: sha512-0RbGAFMfcBJKOmqRazM8L98uokwuwD5F8rHrv/ZMbrZBwVOWZUyPG6VFNscjYr/vjM3Vu4fRrCPbOs42AfemaQ==}
-    dependencies:
-      jest-matcher-utils: 28.1.3
-      pretty-format: 28.1.3
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -1752,7 +1759,6 @@ packages:
   /entities/3.0.1:
     resolution: {integrity: sha512-WiyBqoomrwMdFG1e0kqvASYfnlb0lp8M5o5Fw2OFq1hNZxxcNk8Ik0Xm7LxzBhuidnZB/UtBqVCgUz3kBOP51Q==}
     engines: {node: '>=0.12'}
-    dev: false
 
   /env-paths/2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
@@ -3285,7 +3291,6 @@ packages:
     resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==}
     dependencies:
       uc.micro: 1.0.6
-    dev: false
 
   /locate-path/3.0.0:
     resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
@@ -3354,7 +3359,6 @@ packages:
       linkify-it: 4.0.1
       mdurl: 1.0.1
       uc.micro: 1.0.6
-    dev: false
 
   /markdown-yaml-metadata-parser/3.0.0:
     resolution: {integrity: sha512-gRxEfuGIpb9pS1nQyASx3+l99e1hyTaK/+zDuvGcZJvr+OlksZ5O+q7opPcQP25j/z7NoOYEp17Lxgq5Sn4vDg==}
@@ -3366,7 +3370,6 @@ packages:
 
   /mdurl/1.0.1:
     resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==}
-    dev: false
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -4176,7 +4179,6 @@ packages:
 
   /uc.micro/1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
-    dev: false
 
   /universalify/2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
@@ -4206,7 +4208,6 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
-    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}

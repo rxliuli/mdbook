@@ -1,7 +1,12 @@
-import { mkdirp, remove, writeFile } from 'fs-extra'
+import fsExtra from 'fs-extra'
 import JSZip from 'jszip'
 import path from 'path'
+import { it, beforeEach } from '@jest/globals'
+import { fileURLToPath } from 'url'
 
+const { mkdirp, remove, writeFile } = fsExtra
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const tempPath = path.resolve(__dirname, '.temp')
 
 beforeEach(async () => {

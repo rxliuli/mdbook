@@ -1,10 +1,15 @@
-import { mkdirp, readFile, remove, writeFile } from 'fs-extra'
-import JSZip from 'jszip'
-import parse from 'node-html-parser'
+import fsExtra from 'fs-extra'
+import nodeHtmlParser from 'node-html-parser'
 import path from 'path'
+import { beforeEach, describe, it, expect } from '@jest/globals'
+import { Chapter, EpubBuilder } from '../EpubBuilder.js'
+import { fileURLToPath } from 'url'
 import { v4 } from 'uuid'
-import { Builder, Chapter } from '../Builder'
 
+const { parse } = nodeHtmlParser
+const { mkdirp, readFile, remove, writeFile } = fsExtra
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const tempPath = path.resolve(__dirname, '.temp')
 
 beforeEach(async () => {
@@ -14,7 +19,7 @@ beforeEach(async () => {
 
 describe('gen', () => {
   const dirPath = path.resolve(tempPath, 'test')
-  const builder = new Builder()
+  const builder = new EpubBuilder()
   beforeEach(async () => {
     await remove(tempPath)
     await mkdirp(tempPath)
@@ -76,7 +81,7 @@ describe('gen', () => {
 })
 
 it.skip('renderChapter', async () => {
-  const builder = new Builder()
+  const builder = new EpubBuilder()
   const chapter: Chapter = {
     id: v4(),
     title: 'chapter 1',
