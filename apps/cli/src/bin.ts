@@ -1,17 +1,20 @@
 import { Command } from 'commander'
-import { mkdirp, writeFile } from 'fs-extra'
+import fsExtra from 'fs-extra'
 import * as path from 'path'
 import { Builder, parse } from './Builder.js'
+const { mkdirp, writeFile } = fsExtra
 
 new Command()
   .addCommand(
     new Command('build')
       .description('从 markdown 构建一本 epub 书籍')
+      .option('-i,--input <input>', '入口文件')
       .option('-o,--outDir <outDir>', '输出目录', 'dist')
-      .action(async (options: { outDir: string }) => {
+      .action(async (options: { outDir: string; input: string }) => {
         await mkdirp(path.resolve(options.outDir))
-        const res = await new Builder().generate(path.resolve('readme.md'))
-        const json = await parse(path.resolve())
+        const mdPath = path.resolve(options.input)
+        const res = await new Builder().generate(mdPath)
+        const json = await parse(mdPath)
         await writeFile(path.resolve(options.outDir, json.title + '.epub'), res)
       }),
   )

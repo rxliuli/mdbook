@@ -121,9 +121,15 @@ export class Builder {
     await mkdirp(tempPath)
     const list = await AsyncArray.map(metadata.sections, async (section, i) => {
       const mdPath = path.resolve(rootPath, section)
-      return {
-        ...(await this.renderText(mdPath)),
-        id: 'ch' + i.toString().padStart(4, '0'),
+      try {
+        const chapter = await this.renderText(mdPath)
+        return {
+          ...chapter,
+          id: 'ch' + i.toString().padStart(4, '0'),
+        }
+      } catch (e) {
+        console.error('渲染章节出错', e)
+        throw e
       }
     })
     const coverName = 'cover' + path.extname(metadata.cover)
