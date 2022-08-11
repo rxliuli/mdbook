@@ -10,7 +10,7 @@ new Command()
       .option('-o,--outDir <outDir>', '输出目录', 'dist')
       .action(async (options: { outDir: string }) => {
         await mkdirp(path.resolve(options.outDir))
-        const res = await new Builder().generate(path.resolve())
+        const res = await new Builder().generate(path.resolve('readme.md'))
         const json = await parse(path.resolve())
         await writeFile(path.resolve(options.outDir, json.title + '.epub'), res)
       }),
