@@ -14,7 +14,7 @@ import {
   toMarkdown,
   Paragraph,
   Text,
-} from 'markdown-util'
+} from '@liuli-util/markdown-util'
 
 const { AsyncArray } = async
 const { mkdirp, readFile } = fsExtra
