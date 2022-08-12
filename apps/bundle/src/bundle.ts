@@ -44,6 +44,9 @@ export async function bundleESM(cwd: string, json: PackageJson) {
   }
   if (json.main) {
     console.log('bundle cjs')
+    if (!json.main.endsWith('.cjs')) {
+      throw new Error('cjs bundle not ends with .cjs in esm module')
+    }
     await build({
       entryPoints: ['src/index.ts'],
       outfile: json.main,
@@ -73,6 +76,7 @@ export async function bundleESM(cwd: string, json: PackageJson) {
       banner: {
         // js: `import { createRequire } from 'module';const require = createRequire(import.meta.url);`,
       },
+      absWorkingDir: cwd,
       plugins: [plugins.autoExternal()],
     })
   }
@@ -83,6 +87,9 @@ export async function bundleCjs(cwd: string, json: PackageJson) {
   console.log(`bundle module: cjs, platform: ${platform}`)
   if (json.module) {
     console.log('bundle esm')
+    if (!json.module.endsWith('.mjs')) {
+      throw new Error('esm bundle not ends with .mjs in cjs module')
+    }
     await build({
       entryPoints: ['src/index.ts'],
       outfile: json.module,
@@ -115,7 +122,8 @@ export async function bundleCjs(cwd: string, json: PackageJson) {
       bundle: true,
       sourcemap: true,
       platform: 'node',
-      format: 'esm',
+      format: 'cjs',
+      absWorkingDir: cwd,
       plugins: [plugins.autoExternal()],
     })
   }
