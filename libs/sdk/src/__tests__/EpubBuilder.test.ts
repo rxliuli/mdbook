@@ -1,12 +1,10 @@
 import fsExtra from 'fs-extra'
-import nodeHtmlParser from 'node-html-parser'
 import path from 'path'
-import { beforeEach, describe, it, expect } from '@jest/globals'
-import { Chapter, EpubBuilder } from '../EpubBuilder.js'
+import { beforeEach, describe, it } from '@jest/globals'
+import { EpubBuilder } from '../EpubBuilder.js'
 import { fileURLToPath } from 'url'
 import { v4 } from 'uuid'
 
-const { parse } = nodeHtmlParser
 const { mkdirp, readFile, remove, writeFile } = fsExtra
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -18,15 +16,9 @@ beforeEach(async () => {
 })
 
 describe('gen', () => {
-  const dirPath = path.resolve(tempPath, 'test')
   const builder = new EpubBuilder()
-  beforeEach(async () => {
-    await remove(tempPath)
-    await mkdirp(tempPath)
-  })
   it('basic', async () => {
-    const res = await builder.gen({
-      rootPath: dirPath,
+    const zip = builder.gen({
       metadata: {
         id: v4(),
         title: '第一卷-量子纠缠',
@@ -76,19 +68,6 @@ describe('gen', () => {
         },
       ],
     })
-    await writeFile(path.resolve(tempPath, 'test.epub'), res)
+    await writeFile(path.resolve(tempPath, 'test.epub'), await zip.generateAsync({ type: 'nodebuffer' }))
   })
-})
-
-it.skip('renderChapter', async () => {
-  const builder = new EpubBuilder()
-  const chapter: Chapter = {
-    id: v4(),
-    title: 'chapter 1',
-    content: '<p>content</p>',
-  }
-  const res = await builder.renderChapter(chapter)
-  const dom = parse(res)
-  expect(dom.querySelector('title')!.textContent).toBe(chapter.title)
-  expect(dom.querySelector('body')!.innerHTML).toBe(chapter.content)
 })

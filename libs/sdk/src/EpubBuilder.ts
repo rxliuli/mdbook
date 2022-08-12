@@ -1,15 +1,5 @@
-import async from '@liuli-util/async'
-import fsExtra from 'fs-extra'
-import path from 'path'
-import { RootPath } from './RootPath.js'
-import nodeHtmlParser from 'node-html-parser'
 import { lookup } from 'mime-types'
 import JSZip from 'jszip'
-import FastGlob from 'fast-glob'
-
-const { AsyncArray } = async
-const { parse } = nodeHtmlParser
-const { mkdirp, readFile, remove, writeFile, copy } = fsExtra
 
 export interface MetaData {
   id: string
@@ -41,21 +31,10 @@ export interface GenerateOptions {
   text: Chapter[]
   toc: Toc[]
   image: Image[]
-  rootPath: string
 }
 
 export class EpubBuilder {
-  private readonly EpubPath = path.resolve(RootPath, 'public/epub')
-
-  async renderChapter(chapter: Chapter) {
-    const template = await readFile(path.resolve(this.EpubPath, 'ch000.xhtml'), 'utf-8')
-    const dom = parse(template)
-    dom.querySelector('title')!.textContent = chapter.title
-    dom.querySelector('body')!.innerHTML = chapter.content
-    return dom.innerHTML
-  }
-
-  renderMetadata(meta: MetaData) {
+  private renderMetadata(meta: MetaData) {
     return `<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
     <dc:identifier opf:scheme="uuid" id="uuid_id">${meta.id}</dc:identifier>
     <dc:title>${meta.title}</dc:title>
@@ -74,7 +53,7 @@ export class EpubBuilder {
   </navPoint>`
   }
 
-  renderTocXML(title: string, toc: Toc[]) {
+  private renderTocXML(title: string, toc: Toc[]) {
     return `<?xml version='1.0' encoding='utf-8'?>
     <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="zho">
       <docTitle>
@@ -87,7 +66,7 @@ export class EpubBuilder {
     `
   }
 
-  renderManifest({ text, image }: { text: Chapter[]; image: Image[] }) {
+  private renderManifest({ text, image }: { text: Chapter[]; image: Image[] }) {
     return `<manifest>
     <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
     ${text
@@ -99,13 +78,13 @@ export class EpubBuilder {
   </manifest>`
   }
 
-  renderNcxSpine(text: Chapter[]) {
+  private renderNcxSpine(text: Chapter[]) {
     return `<spine toc="ncx">
     ${text.map((item) => `<itemref idref="${item.id}"/>`).join('\n')}
   </spine>`
   }
 
-  renderContentOpf(options: { metadata: string; manifest: string; ncxSpine: string }) {
+  private renderContentOpf(options: { metadata: string; manifest: string; ncxSpine: string }) {
     return `<?xml version='1.0' encoding='utf-8'?>
     <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
       ${options.metadata}
@@ -116,7 +95,7 @@ export class EpubBuilder {
     `
   }
 
-  renderText(text: Chapter) {
+  private renderText(text: Chapter) {
     return `<?xml version="1.0" encoding="utf-8"?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -131,40 +110,36 @@ export class EpubBuilder {
     </html>`
   }
 
-  async gen({ metadata, text, toc, image, rootPath }: GenerateOptions): Promise<Buffer> {
-    const list = ['META-INF/container.xml', 'mimetype']
-    await AsyncArray.forEach(list, async (name) => {
-      const outPath = path.resolve(rootPath, name)
-      await mkdirp(path.dirname(outPath))
-      await copy(path.resolve(this.EpubPath, name), outPath)
-    })
-    await writeFile(path.resolve(rootPath, 'toc.ncx'), this.renderTocXML(metadata.title, toc))
-    await writeFile(
-      path.resolve(rootPath, 'content.opf'),
+  private init(zip: JSZip) {
+    zip.file('mimetype', 'application/epub+zip')
+    zip.file(
+      'META-INF/container.xml',
+      `<?xml version="1.0"?>
+    <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
+       <rootfiles>
+          <rootfile full-path="content.opf" media-type="application/oebps-package+xml"/>
+       </rootfiles>
+    </container>`,
+    )
+  }
+
+  gen({ metadata, text, toc, image }: GenerateOptions): JSZip {
+    const zip = new JSZip()
+    this.init(zip)
+    zip.file('toc.ncx', this.renderTocXML(metadata.title, toc))
+    zip.file(
+      'content.opf',
       this.renderContentOpf({
         metadata: this.renderMetadata(metadata),
         manifest: this.renderManifest({ text, image }),
         ncxSpine: this.renderNcxSpine(text),
       }),
     )
-
     // 写入图像
-    await mkdirp(path.resolve(rootPath, 'images'))
-    await AsyncArray.forEach(image, (item) => writeFile(path.resolve(rootPath, 'images', item.id), item.buffer))
-
+    image.forEach((item) => zip.file(`images/${item.id}`, item.buffer))
     // 写入文本
-    await mkdirp(path.resolve(rootPath, 'text'))
-    await AsyncArray.forEach(text, (item) =>
-      writeFile(path.resolve(rootPath, 'text', item.id + '.xhtml'), this.renderText(item)),
-    )
+    text.forEach((item) => zip.file(`text/${item.id}.xhtml`, this.renderText(item)))
 
-    return this.bundleZip(rootPath)
-  }
-
-  async bundleZip(rootPath: string) {
-    const zip = new JSZip()
-    const list = await FastGlob('**', { cwd: rootPath, onlyFiles: true })
-    list.forEach((item) => zip.file(item, readFile(path.resolve(rootPath, item))))
-    return await zip.generateAsync({ type: 'nodebuffer' })
+    return zip
   }
 }

@@ -184,10 +184,8 @@ export class MarkdownBookBuilder {
         chapterId: item.id,
         title: item.title,
       })),
-      rootPath: tempPath,
     }
 
-    const epubBuilder = new EpubBuilder()
-    return await epubBuilder.gen(options)
+    return await new EpubBuilder().gen(options).generateAsync({ type: 'nodebuffer' })
   }
 }

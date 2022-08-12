@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import fsExtra from 'fs-extra'
 import * as path from 'path'
-import { MarkdownBookBuilder, parse } from './Builder.js'
+import { MarkdownBookBuilder, parse } from './MarkdownBookBuilder.js'
 const { mkdirp, writeFile } = fsExtra
 
 new Command()

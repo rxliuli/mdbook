@@ -1,7 +1,7 @@
 import fsExtra from 'fs-extra'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { MarkdownBookBuilder } from '../Builder.js'
+import { MarkdownBookBuilder } from '../MarkdownBookBuilder.js'
 import { beforeEach, it } from '@jest/globals'
 
 const { mkdirp, remove, writeFile } = fsExtra

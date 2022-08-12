@@ -1,13 +1,13 @@
 # mdbook
 
-一个基于 pandoc 的 markdown => epub 的构建工具。
+一个 markdown => epub 的生成工具，对中文 markdown 渲染友好。
 
 ## 使用
 
 ```sh
-pnpm i @liuli-util/mdbook
+pnpm i -D @liuli-util/mdbook
 #根据 readme.md 构建 epub 书籍到 dist/ 目录下
-mdbook build
+pnpm mdbook build -i ./readme.md -o dist/
 ```
 
 ## 配置
@@ -21,7 +21,7 @@ author: Hieronym
 rights: CC BY-NC-SA
 description: 丘比承诺说人类总有一天也能到达那遥远的星空。但它们很明智地没有说出来，人类将会在那里遇到什么。
 language: zh-CN
-cover-image: './assets/cover.png'
+cover: './assets/cover.png'
 sections:
   - 001-第一章-许愿.md
   - 002-第二章-幻影.md
