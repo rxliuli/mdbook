@@ -1,6 +1,7 @@
 {
-  "name": "markdown-util",
+  "name": "@liuli-util/markdown-util",
   "type": "module",
+  "version": "0.1.0",
   "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
