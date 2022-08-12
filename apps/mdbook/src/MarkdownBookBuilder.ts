@@ -1,5 +1,5 @@
 import path from 'path'
-import fsExtra, { remove } from 'fs-extra'
+import fsExtra, { pathExists, remove } from 'fs-extra'
 import matter from 'gray-matter'
 import { Chapter, EpubBuilder, GenerateOptions, Image } from '@liuli-util/mdbook-sdk'
 import { v4 } from 'uuid'
@@ -25,7 +25,7 @@ export interface BookConfig {
   rights: string
   description: string
   language: string
-  cover: string
+  cover?: string
   sections: string[]
 }
 
@@ -122,9 +122,6 @@ export class MarkdownBookBuilder {
     const rootPath = path.dirname(entryPoint)
     const md = await readFile(entryPoint, 'utf-8')
     const metadata = this.renderHome(md)
-    const tempPath = path.resolve(rootPath, '.temp')
-    await remove(tempPath)
-    await mkdirp(tempPath)
     const list = await AsyncArray.map(metadata.sections, async (section, i) => {
       const mdPath = path.resolve(rootPath, section)
       try {
@@ -138,28 +135,41 @@ export class MarkdownBookBuilder {
         throw e
       }
     })
-    const coverName = 'cover' + path.extname(metadata.cover)
+    const extraText: Chapter[] = []
+    const extraImage: Image[] = []
+    if (metadata.cover) {
+      const coverPath = path.resolve(rootPath, metadata.cover)
+      if (!(await pathExists(coverPath))) {
+        throw new Error('未找到图像 ' + metadata.cover)
+      }
+      const coverName = 'cover' + path.extname(metadata.cover)
+      extraText.push({
+        id: 'cover',
+        title: 'cover',
+        content: `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        version="1.1"
+        viewBox="0 0 1352 2000"
+        width="100%"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <image width="1352" height="2000" xlink:href="../images/${coverName}" />
+      </svg>`,
+      })
+      extraImage.push({
+        id: coverName,
+        buffer: await readFile(coverPath),
+      })
+    }
     const options: GenerateOptions = {
       metadata: {
         id: v4(),
         ...metadata,
       },
       text: [
-        {
-          id: 'cover',
-          title: 'cover',
-          content: `<svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="100%"
-          preserveAspectRatio="xMidYMid meet"
-          version="1.1"
-          viewBox="0 0 1352 2000"
-          width="100%"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-        >
-          <image width="1352" height="2000" xlink:href="../images/${coverName}" />
-        </svg>`,
-        },
+        ...extraText,
         {
           id: 'home',
           title: 'home',
@@ -172,13 +182,7 @@ export class MarkdownBookBuilder {
         },
         ...list,
       ],
-      image: [
-        {
-          id: coverName,
-          buffer: await readFile(path.resolve(rootPath, metadata.cover)),
-        },
-        ...list.flatMap((item) => item.images),
-      ],
+      image: [...extraImage, ...list.flatMap((item) => item.images)],
       toc: list.map((item) => ({
         id: v4(),
         chapterId: item.id,

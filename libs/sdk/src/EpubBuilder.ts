@@ -6,7 +6,7 @@ export interface MetaData {
   title: string
   author: string
   language: string
-  cover: string
+  cover?: string
 }
 
 export interface Chapter {
