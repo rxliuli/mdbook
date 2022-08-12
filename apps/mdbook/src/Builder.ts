@@ -103,13 +103,19 @@ export class MarkdownBookBuilder {
       ),
     }
   }
+
   /** 读取首页 */
-  renderHome(md: string): BookConfig & { content: string } {
+  renderHome(md: string): BookConfig & { home: string; prologue: string } {
     const root = fromMarkdown(md)
     const meta = matter(md).data as BookConfig
     return {
       ...meta,
-      content: `<h1>${meta.title}</h1>` + stringify(root),
+      home: `
+<h1>${meta.title}</h1>
+<p>${meta.author}</p>
+<p>${meta.rights}</p>
+`.trim(),
+      prologue: `<h1>序</h1>` + stringify(root),
     }
   }
   async generate(entryPoint: string) {
@@ -155,9 +161,14 @@ export class MarkdownBookBuilder {
         </svg>`,
         },
         {
-          id: 'about',
-          title: 'about',
-          content: metadata.content,
+          id: 'home',
+          title: 'home',
+          content: metadata.home,
+        },
+        {
+          id: 'prologue',
+          title: 'prologue',
+          content: metadata.prologue,
         },
         ...list,
       ],

@@ -10,6 +10,7 @@
     "module": "ESNext",
     "moduleResolution": "NodeNext",
     "sourceMap": true,
+    "emitDeclarationOnly": true,
     "declaration": true,
     "declarationMap": true
   },

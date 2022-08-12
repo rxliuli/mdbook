@@ -1,9 +1,9 @@
 {
-  "name": "mdbook",
+  "name": "monorepo",
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "setup-all": "pnpm --filter . run setup"
+    "setup-all": "pnpm -r run setup"
   },
   "license": "MIT",
   "prettier": "@liuli-util/prettier-standard-config",

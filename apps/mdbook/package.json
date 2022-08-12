@@ -3,14 +3,21 @@
   "version": "0.1.1",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs",
+    "types": "./dist/index.d.ts"
+  },
   "scripts": {
-    "build": "tsx ./build.ts && tsc",
+    "setup": "pnpm build",
+    "build": "bundle && tsc",
     "start": "tsx src/bin.ts"
   },
   "bin": {
-    "mdbook": "./bin.mjs"
+    "mdbook": "./bin.js"
   },
   "publishConfig": {
     "access": "public",
@@ -19,8 +26,7 @@
   "devDependencies": {
     "@jest/globals": "^28.1.3",
     "@liuli-util/async": "^3.4.0",
-    "@liuli-util/cli": "^3.21.0",
-    "@liuli-util/esbuild-plugins": "^0.1.1",
+    "@liuli-util/bundle": "workspace:^",
     "@liuli-util/mdbook-sdk": "workspace:^",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.7.1",
