@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import fsExtra from 'fs-extra'
 import * as path from 'path'
-import { Builder, parse } from './Builder.js'
+import { MarkdownBookBuilder, parse } from './Builder.js'
 const { mkdirp, writeFile } = fsExtra
 
 new Command()
@@ -13,7 +13,7 @@ new Command()
       .action(async (options: { outDir: string; input: string }) => {
         await mkdirp(path.resolve(options.outDir))
         const mdPath = path.resolve(options.input)
-        const res = await new Builder().generate(mdPath)
+        const res = await new MarkdownBookBuilder().generate(mdPath)
         const json = await parse(mdPath)
         await writeFile(path.resolve(options.outDir, json.title + '.epub'), res)
       }),

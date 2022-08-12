@@ -1,7 +1,7 @@
 import fsExtra from 'fs-extra'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { Builder } from '../Builder.js'
+import { MarkdownBookBuilder } from '../Builder.js'
 import { beforeEach, it } from '@jest/globals'
 
 const { mkdirp, remove, writeFile } = fsExtra
@@ -16,7 +16,7 @@ beforeEach(async () => {
 })
 
 it('basic', async () => {
-  const builder = new Builder()
+  const builder = new MarkdownBookBuilder()
   const res = await builder.generate(path.resolve(__dirname, './book/readme.md'))
   await writeFile(path.resolve(tempPath, 'test.epub'), res)
 })

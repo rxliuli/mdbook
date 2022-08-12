@@ -3,8 +3,10 @@
   "version": "0.1.1",
   "license": "MIT",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsx ./build.ts",
+    "build": "tsx ./build.ts && tsc",
     "start": "tsx src/bin.ts"
   },
   "bin": {

@@ -34,7 +34,7 @@ export async function parse(entryPoint: string) {
   return matter(md).data as BookConfig
 }
 
-export class Builder {
+export class MarkdownBookBuilder {
   getImages(root: Root) {
     const r: string[] = []
     visit(root, (node) => {
