@@ -36,7 +36,7 @@ export async function bundleESM(cwd: string, json: PackageJson) {
       platform,
       format: 'esm',
       banner: {
-        js: `import { createRequire } from 'module';const require = createRequire(import.meta.url);`,
+        // js: `import { createRequire } from 'module';const require = createRequire(import.meta.url);`,
       },
       absWorkingDir: cwd,
       plugins: [plugins.autoExternal()],

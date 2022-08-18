@@ -1,0 +1,14 @@
+.App {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
+}
+
+.App > * {
+  overflow-y: auto;
+}
+
+.main {
+  max-width: 740px;
+  margin: auto;
+}
