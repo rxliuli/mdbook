@@ -34,6 +34,19 @@ export async function parse(entryPoint: string) {
   return matter(md).data as BookConfig
 }
 
+export function extractTitle(root: Root) {
+  let r: string = ''
+  visit(root, (node) => {
+    if (node.type === 'heading' && (node as Heading).depth === 1) {
+      r = (node as Heading).children.map(toMarkdown).join('').trim()
+    }
+  })
+  if (!r) {
+    throw new Error('找不到一级标题')
+  }
+  return r
+}
+
 export class MarkdownBookBuilder {
   getImages(root: Root) {
     const r: string[] = []

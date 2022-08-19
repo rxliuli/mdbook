@@ -11,6 +11,8 @@
   "dependencies": {
     "@liuli-util/markdown-util": "workspace:^",
     "comlink": "^4.3.1",
+    "html-to-react": "^1.5.0",
+    "lodash-es": "^4.17.21",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-markdown": "^8.0.3",
@@ -18,6 +20,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/uuid": "^8.3.4",

@@ -15,7 +15,9 @@
   "scripts": {
     "setup": "pnpm build",
     "build": "bundle && tsc",
-    "start": "tsx src/bin.ts"
+    "start": "tsx src/bin.ts",
+    "dev": "tsx src/server.ts",
+    "dev-chokidar": "chokidar \"src/**/*.ts\" -c \"tsx src/server.ts\""
   },
   "bin": {
     "mdbook": "./bin.js"
@@ -25,21 +27,32 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@liuli-util/mdbook-sdk": "workspace:^",
-    "@liuli-util/markdown-util": "workspace:^",
+    "@koa/cors": "^3.3.0",
+    "@koa/router": "^12.0.0",
     "@liuli-util/async": "^3.4.0",
+    "@liuli-util/markdown-util": "workspace:^",
+    "@liuli-util/mdbook-sdk": "workspace:^",
     "commander": "^9.4.0",
+    "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "gray-matter": "^4.0.3",
+    "koa": "^2.13.4",
+    "koa-static": "^5.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@jest/globals": "^28.1.3",
     "@liuli-util/bundle": "workspace:^",
     "@types/fs-extra": "^9.0.13",
+    "@types/koa": "^2.13.5",
+    "@types/koa-static": "^4.0.2",
+    "@types/koa__cors": "^3.3.0",
+    "@types/koa__router": "^8.0.11",
     "@types/node": "^18.7.1",
     "@types/uuid": "^8.3.4",
+    "chokidar-cli": "^3.0.0",
     "jest": "^28.1.3",
+    "kill-port": "^1",
     "ts-jest": "^28.0.7",
     "tsx": "^3.8.1",
     "type-fest": "^2.18.0",
@@ -66,7 +79,7 @@
   "wallaby": {
     "env": {
       "params": {
-        "runner": "--experimental-vm-modules"
+        "runner": "--experimental-vm-modules --experimental-fetch"
       }
     }
   }

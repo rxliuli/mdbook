@@ -18,4 +18,7 @@ new Command()
         await writeFile(path.resolve(options.outDir, json.title + '.epub'), res)
       }),
   )
+  .action(() => {
+    
+  })
   .parse()
