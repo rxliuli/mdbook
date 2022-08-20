@@ -1,5 +1,5 @@
 import path from 'path'
-import fsExtra, { pathExists, remove } from 'fs-extra'
+import fsExtra from 'fs-extra'
 import matter from 'gray-matter'
 import { Chapter, EpubBuilder, GenerateOptions, Image } from '@liuli-util/mdbook-sdk'
 import { v4 } from 'uuid'
@@ -17,7 +17,7 @@ import {
 } from '@liuli-util/markdown-util'
 
 const { AsyncArray } = async
-const { mkdirp, readFile } = fsExtra
+const { pathExists, stat, readFile } = fsExtra
 
 export interface BookConfig {
   title: string
@@ -128,10 +128,23 @@ export class MarkdownBookBuilder {
 <p>${meta.author}</p>
 <p>${meta.rights}</p>
 `.trim(),
-      prologue: `<h1>序</h1>` + stringify(root),
+      prologue: `<h1>制作说明</h1>` + stringify(root),
     }
   }
+  private async validateEntryPoint(entryPoint: string) {
+    if (!(await pathExists(entryPoint))) {
+      throw new Error('入口文件不存在 ' + entryPoint)
+    }
+    if (!(await stat(entryPoint)).isFile()) {
+      throw new Error('指定的 input 入口不是一个文件')
+    }
+    if (!entryPoint.endsWith('.md')) {
+      throw new Error('入口文件不是一个 markdown 文件')
+    }
+  }
+
   async generate(entryPoint: string) {
+    await this.validateEntryPoint(entryPoint)
     const rootPath = path.dirname(entryPoint)
     const md = await readFile(entryPoint, 'utf-8')
     const metadata = this.renderHome(md)
