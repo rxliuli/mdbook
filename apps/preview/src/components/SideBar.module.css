@@ -1,18 +1,18 @@
 .SideBar {
   width: 20rem;
-}
-
-.list {
+  border-right: 1px solid #6e675b;
   list-style: none;
   padding-left: 0;
+  margin: 0;
+  padding: 1rem 0;
 }
 
-.list > li {
+.SideBar > li {
   padding: 0.35rem 1.5rem;
   cursor: pointer;
   font-weight: bolder;
 }
-.list > li:hover,
-.list > li.active {
-  color: #62bc93;
+.SideBar > li:hover,
+.SideBar > li.active {
+  color: var(--primary-color);
 }

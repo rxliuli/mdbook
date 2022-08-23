@@ -1,7 +1,6 @@
 {
   "name": "@liuli-util/mdbook-preview",
   "private": true,
-  "type": "module",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

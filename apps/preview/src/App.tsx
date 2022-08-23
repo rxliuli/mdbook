@@ -4,6 +4,7 @@ import { bookApi } from './api/BookApi'
 import { HTMLViewer } from './components/HTMLViewer'
 import { ISideBarItem, SideBar } from './components/SideBar'
 import css from './App.module.css'
+import { Navbar } from './components/Navbar'
 
 export function App() {
   const [list, setList] = useState<ISideBarItem[]>([])
@@ -33,6 +34,7 @@ export function App() {
   })
   return (
     <div className={css.App}>
+      <Navbar />
       <SideBar list={list} active={active} onClick={(item) => loadById(item)} />
       <main ref={mainRef}>
         <div className={css.main}>

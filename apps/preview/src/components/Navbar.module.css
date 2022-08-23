@@ -1,0 +1,24 @@
+.Navbar {
+  font-size: 20px;
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid #6e675b;
+}
+
+.homeLink {
+  text-decoration: none;
+  color: var(--color);
+}
+.homeLink:hover {
+  color: var(--primary-color);
+}
+
+.themeIcon {
+  display: block;
+  width: calc(var(--navbar-height) * 0.5);
+  height: calc(var(--navbar-height) * 0.5);
+  cursor: pointer;
+}

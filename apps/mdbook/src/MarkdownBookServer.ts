@@ -2,7 +2,7 @@ import cors from '@koa/cors'
 import Router from '@koa/router'
 import asyncLib from '@liuli-util/async'
 import { fromMarkdown, stringify } from '@liuli-util/markdown-util'
-import type { Chapter } from '@liuli-util/mdbook-sdk'
+import type { Chapter, MetaData } from '@liuli-util/mdbook-sdk'
 import fsExtra from 'fs-extra'
 import { Server } from 'http'
 import Application from 'koa'
@@ -21,6 +21,9 @@ export class MarkdownBookServer {
     router.get('/ping', (ctx) => {
       ctx.body = 'pong'
     })
+    router.get('/meta', async (ctx) => {
+      ctx.body = await this.getMetadata()
+    })
     router.get('/list', async (ctx) => {
       ctx.body = await this.getChapterList()
     })
@@ -38,7 +41,9 @@ export class MarkdownBookServer {
       this.server.close()
     }
   }
-
+  async getMetadata(): Promise<BookConfig> {
+    return (await parse(path.resolve(this.options.cwd, 'readme.md'))) as BookConfig
+  }
   /** 获取章节列表 */
   async getChapterList(): Promise<Pick<Chapter, 'id' | 'title'>[]> {
     const meta = (await parse(path.resolve(this.options.cwd, 'readme.md'))) as BookConfig

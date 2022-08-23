@@ -1,7 +1,24 @@
+:root {
+  --navbar-height: 50px;
+  --primary-color: #62bc93;
+}
+
+html[data-theme='dark']:root {
+  --background-color: #fff;
+  --color: #000;
+}
+
+html[data-theme='dark']:root {
+  --background-color: #1f2228;
+  --color: #b1aca4;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--background-color);
+  color: var(--color);
 }
 
 * {

@@ -7,13 +7,14 @@ function mdBookPlugin(): Plugin {
     name: 'vite-plugin-mdbook',
     configureServer(server) {
       return () => {
-        server.middlewares.use(historyApiFallback({ disableDotRule: true }))
+        server.middlewares.use(historyApiFallback({ disableDotRule: true, verbose: true }))
       }
     },
   }
 }
 
 export default defineConfig({
+  base: './',
   plugins: [preact(), mdBookPlugin()],
   resolve: {
     alias: {
