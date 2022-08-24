@@ -13,13 +13,13 @@ interface BookConfig {
 
 class BookApi {
   async getChapterList(): Promise<ISideBarItem[]> {
-    return await ajaxClient.get('/list')
+    return await ajaxClient.get('/api/list')
   }
   async getById(id: string): Promise<string> {
-    return await ajaxClient.get('/get', { id })
+    return await ajaxClient.get('/api/get', { id })
   }
   async getMetadata(): Promise<BookConfig> {
-    return await ajaxClient.get('/meta')
+    return await ajaxClient.get('/api/meta')
   }
 }
 

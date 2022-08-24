@@ -24,4 +24,9 @@ export default defineConfig({
       'react/jsx-runtime': 'preact/jsx-runtime',
     },
   },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:9090',
+    },
+  },
 })

@@ -4,7 +4,7 @@ import { MarkdownBookServer } from '../MarkdownBookServer.js'
 
 const port = 9090
 const server = new MarkdownBookServer({
-  cwd: path.resolve('C:/Users/rxliuli/Code/book/to-the-stars/books/01'),
+  entryPoint: path.resolve('C:/Users/rxliuli/Code/book/to-the-stars/books/01/readme.md'),
   port,
 })
 
