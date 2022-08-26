@@ -35,25 +35,33 @@ export class MarkdownBookServer {
       ctx.body = await this.getMetadata()
     })
     router.get('/api/list', async (ctx) => {
-      ctx.body = await this.getChapterList()
+      ctx.body = (await this.getChapterList()).map((item) => ({ ...item, id: item.id.replace('.md', '.html') }))
     })
     router.get('/api/get', async (ctx) => {
-      ctx.body = await this.getById(ctx.query.id as string)
+      ctx.body = await this.getById((ctx.query.id as string).replace('.html', '.md'))
     })
 
     const require = createRequire(import.meta.url)
     const app = new Application()
+
     app.use(cors()).use(router.routes())
-    // console.log('env', process.env.NODE_ENV ?? 'production')
+    console.log('env', process.env.NODE_ENV ?? 'production')
     if (process.env.NODE_ENV === 'development') {
       app.use(koaHttpProxy('localhost:5173', {}))
     } else {
       app.use(serve(path.dirname(require.resolve('@liuli-util/mdbook-preview'))))
     }
-    // 默认返回这个页面
+    if (process.env.NODE_ENV === 'development') {
+      app.use(async (ctx, next) => {
+        console.log('log: ', ctx.url)
+        await next()
+      })
+    }
+    app.use(serve(path.dirname(this.options.entryPoint)))
+    // 如果请求 markdown 则默认返回这个页面
     app.use(async (ctx) => {
       // console.log('ctx.req.method', ctx.req.method, ctx.req.url)
-      if (ctx.req.method === 'GET' && ctx.req.url?.endsWith('.md')) {
+      if (ctx.req.method === 'GET' && ctx.req.url?.endsWith('.html')) {
         ctx.body = await readFile(require.resolve('@liuli-util/mdbook-preview'), 'utf-8')
       }
     })

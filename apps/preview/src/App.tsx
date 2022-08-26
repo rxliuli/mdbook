@@ -1,10 +1,11 @@
 import { useState, useRef } from 'preact/hooks'
-import { useAsyncFn, useMount } from 'react-use'
+import { useAsyncFn, useMount, useToggle } from 'react-use'
 import { bookApi } from './api/BookApi'
 import { HTMLViewer } from './components/HTMLViewer'
 import { ISideBarItem, SideBar } from './components/SideBar'
 import css from './App.module.css'
 import { Navbar } from './components/Navbar'
+import { HomeView } from './components/HomeView'
 
 export function App() {
   const [list, setList] = useState<ISideBarItem[]>([])
@@ -12,6 +13,7 @@ export function App() {
   const mainRef = useRef<HTMLElement>(null)
   const [active, setActive] = useState<string>()
   const [, loadById] = useAsyncFn(async (item: ISideBarItem) => {
+    toggleIsHome(false)
     setActive(item.id)
     document.title = item.title
     history.pushState({}, item.title, item.id)
@@ -19,6 +21,7 @@ export function App() {
     setContent(text)
     mainRef.current!.scrollTop = 0
   })
+  const [isHome, toggleIsHome] = useToggle(true)
   useMount(async () => {
     const list = await bookApi.getChapterList()
     setList(list)
@@ -27,19 +30,19 @@ export function App() {
       const findItem = list.find((item) => item.id === id)
       if (findItem) {
         await loadById(findItem)
+        toggleIsHome(false)
         return
       }
     }
-    await loadById(list[0])
+    toggleIsHome(true)
+    // await loadById(list[0])
   })
   return (
     <div className={css.App}>
       <Navbar />
       <SideBar list={list} active={active} onClick={(item) => loadById(item)} />
       <main ref={mainRef}>
-        <div className={css.main}>
-          <HTMLViewer>{content}</HTMLViewer>
-        </div>
+        <div className={css.main}>{isHome ? <HomeView /> : <HTMLViewer>{content}</HTMLViewer>}</div>
       </main>
     </div>
   )
