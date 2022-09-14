@@ -34,7 +34,7 @@ export function getYamlMeta<T>(root: Root): T {
 export function setYamlMeta(root: Root, meta: any) {
   visit(root, (node) => {
     if (node.type === 'yaml') {
-      ;(node as YAML).value = yaml.stringify(meta)
+      ;(node as YAML).value = yaml.stringify(meta).trim()
     }
   })
 }
