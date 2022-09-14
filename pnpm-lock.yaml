@@ -162,6 +162,7 @@ importers:
       unist-util-remove: ^3.1.0
       unist-util-visit: ^4.1.0
       unist-util-visit-parents: ^5.1.0
+      yaml: ^2.1.1
     dependencies:
       hast-util-to-html: 8.0.3
       mdast-util-from-markdown: 1.2.0
@@ -187,6 +188,7 @@ importers:
       lodash-es: 4.17.21
       ts-jest: 28.0.7_bi2kohzqnxavgozw3csgny5hju
       typescript: 4.7.4
+      yaml: 2.1.1
 
   libs/sdk:
     specifiers:
@@ -6534,6 +6536,11 @@ packages:
 
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+    dev: true
+
+  /yaml/2.1.1:
+    resolution: {integrity: sha512-o96x3OPo8GjWeSLF+wOAbrPfhFOGY0W00GNaxCDv+9hkcDJEnev1yh8S7pgHF0ik6zc8sQLuL8hjHjJULZp8bw==}
+    engines: {node: '>= 14'}
     dev: true
 
   /yargs-parser/13.1.2:
