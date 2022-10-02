@@ -1,7 +1,7 @@
-import { fromMarkdown, Root, toMarkdown, YAML } from '../parse.js'
-import { stringify } from '../stringify.js'
+import { fromMarkdown, Root, toMarkdown, YAML } from '../parse'
+import { stringify } from '../stringify'
 import { it, expect } from '@jest/globals'
-import { getYamlMeta, setYamlMeta, visit } from '../utils.js'
+import { getYamlMeta, setYamlMeta, visit } from '../utils'
 
 it('basic', () => {
   const str = '## Hello **World**!'

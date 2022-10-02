@@ -1,3 +1,3 @@
-export * from './parse.js'
-export * from './stringify.js'
-export * from './utils.js'
+export * from './parse'
+export * from './stringify'
+export * from './utils'

@@ -1,7 +1,7 @@
 import { expect, it } from '@jest/globals'
-import { fromMarkdown, Heading, toMarkdown, Image, Paragraph, Text } from '../parse.js'
-import { stringify } from '../stringify.js'
-import { visit } from '../utils.js'
+import { fromMarkdown, Heading, toMarkdown, Image, Paragraph, Text } from '../parse'
+import { stringify } from '../stringify'
+import { visit } from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello

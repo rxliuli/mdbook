@@ -1,5 +1,5 @@
 import { visit as unistUtilVisit, Node } from 'unist-util-visit'
-import { Root, YAML } from './parse.js'
+import { Root, YAML } from './parse'
 import * as yaml from 'yaml'
 
 /**
@@ -10,6 +10,7 @@ export function visit(node: Node, callback: (node: Node) => void) {
 }
 
 export { remove } from 'unist-util-remove'
+export { map } from 'unist-util-map'
 
 /**
  * 获取 markdown 的 yaml 元数据
