@@ -1,7 +1,7 @@
 {
   "name": "@liuli-util/markdown-util",
   "type": "module",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {
