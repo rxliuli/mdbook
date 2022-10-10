@@ -33,9 +33,18 @@ export function getYamlMeta<T>(root: Root): T {
  * @returns
  */
 export function setYamlMeta(root: Root, meta: any) {
+  let flag = false
   visit(root, (node) => {
     if (node.type === 'yaml') {
       ;(node as YAML).value = yaml.stringify(meta).trim()
+      flag = true
     }
   })
+  if (flag) {
+    return
+  }
+  root.children.unshift({
+    type: 'yaml',
+    value: yaml.stringify(meta).trim(),
+  } as YAML)
 }

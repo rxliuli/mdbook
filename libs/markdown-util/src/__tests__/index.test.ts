@@ -57,3 +57,10 @@ content
   expect(r.includes(date)).toBeTruthy()
 })
 
+it('set yaml', () => {
+  const root = fromMarkdown('# hello')
+  const meta = { name: 'liuli', age: 17 }
+  setYamlMeta(root, meta)
+  const r = getYamlMeta(root)
+  expect(r).deep.eq(meta)
+})
