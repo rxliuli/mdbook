@@ -1,6 +1,6 @@
-import { fromMarkdown, Root, toMarkdown, YAML } from '../parse'
+import { expect, it } from 'vitest'
+import { fromMarkdown, toMarkdown, YAML } from '../parse'
 import { stringify } from '../stringify'
-import { it, expect } from '@jest/globals'
 import { getYamlMeta, setYamlMeta, visit } from '../utils'
 
 it('basic', () => {
@@ -56,3 +56,4 @@ content
   expect(r.includes(title)).toBeTruthy()
   expect(r.includes(date)).toBeTruthy()
 })
+

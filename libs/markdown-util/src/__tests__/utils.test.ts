@@ -1,4 +1,4 @@
-import { expect, it } from '@jest/globals'
+import { expect, it } from "vitest";
 import { fromMarkdown, Heading, toMarkdown, Image, Paragraph, Text } from '../parse'
 import { stringify } from '../stringify'
 import { visit } from '../utils'
