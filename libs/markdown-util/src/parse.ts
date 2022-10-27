@@ -1,10 +1,12 @@
 import { fromMarkdown as fm } from 'mdast-util-from-markdown'
-import { toMarkdown as tm } from 'mdast-util-to-markdown'
+import { Options, toMarkdown as tm } from 'mdast-util-to-markdown'
 import type { Content, Root } from 'mdast'
 import { frontmatterFromMarkdown, frontmatterToMarkdown } from 'mdast-util-frontmatter'
 import { frontmatter } from 'micromark-extension-frontmatter'
 import { gfm } from 'micromark-extension-gfm'
 import { gfmFromMarkdown, gfmToMarkdown } from 'mdast-util-gfm'
+import type { Extension as MicromarkSyntaxExtension } from 'micromark-util-types'
+import type { Extension as MdastExtension } from 'mdast-util-from-markdown'
 
 export type { Root, Image, Heading, YAML, Paragraph, Text, Link } from 'mdast'
 
@@ -13,20 +15,32 @@ export type { Root, Image, Heading, YAML, Paragraph, Text, Link } from 'mdast'
  * @param content
  * @returns
  */
-export function fromMarkdown(content: string): Root {
+export function fromMarkdown(
+  content: string,
+  options?: {
+    extensions?: MicromarkSyntaxExtension[]
+    mdastExtensions?: MdastExtension[]
+  },
+): Root {
   return fm(content, {
-    extensions: [frontmatter(['yaml']), gfm()],
-    mdastExtensions: [frontmatterFromMarkdown(['yaml']), gfmFromMarkdown()],
+    extensions: [frontmatter(['yaml']), gfm()].concat(options?.extensions ?? []),
+    mdastExtensions: [frontmatterFromMarkdown(['yaml']), gfmFromMarkdown()].concat(options?.mdastExtensions ?? []),
   })
 }
+export type { MicromarkSyntaxExtension, MdastExtension }
 
 /**
  * 将 markdown ast 转换为文本
  * @param ast
  * @returns
  */
-export function toMarkdown(ast: Content | Root): string {
+export function toMarkdown(
+  ast: Content | Root,
+  options?: {
+    extensions: Options[]
+  },
+): string {
   return tm(ast, {
-    extensions: [frontmatterToMarkdown(['yaml']), gfmToMarkdown()],
+    extensions: [frontmatterToMarkdown(['yaml']), gfmToMarkdown()].concat(options?.extensions ?? []),
   })
 }
