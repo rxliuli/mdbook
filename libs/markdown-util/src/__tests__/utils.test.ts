@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { expect, it } from 'vitest'
 import { fromMarkdown, Heading, toMarkdown, Image, Paragraph, Text } from '../parse'
 import { stringify } from '../stringify'
 import { visit } from '../utils'
@@ -12,7 +12,12 @@ it('visit', () => {
   const list: string[] = []
   visit(ast, (node) => {
     if (node.type === 'heading' && (node as Heading).depth === 2) {
-      list.push((node as Heading).children.map(toMarkdown).join('').trim())
+      list.push(
+        (node as Heading).children
+          .map((v) => toMarkdown(v))
+          .join('')
+          .trim(),
+      )
     }
   })
   expect(list).toEqual(['sub1', 'sub2'])

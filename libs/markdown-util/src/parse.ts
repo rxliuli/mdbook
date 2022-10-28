@@ -22,7 +22,7 @@ export function fromMarkdown(content: string, options?: FmOptions): Root {
     mdastExtensions: [frontmatterFromMarkdown(['yaml']), gfmFromMarkdown()].concat(options?.mdastExtensions ?? []),
   })
 }
-export type { MicromarkSyntaxExtension, MdastExtension, TmOptions as ToMarkdownExtension }
+export { MicromarkSyntaxExtension, MdastExtension, TmOptions as ToMarkdownExtension }
 
 /**
  * 将 markdown ast 转换为文本
