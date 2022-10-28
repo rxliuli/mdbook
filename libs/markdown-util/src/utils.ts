@@ -1,5 +1,5 @@
 import { visit as unistUtilVisit, Node } from 'unist-util-visit'
-import { Root, YAML } from './parse'
+import { Parent, Root, YAML } from './parse'
 import * as yaml from 'yaml'
 
 /**
@@ -8,9 +8,6 @@ import * as yaml from 'yaml'
 export function visit(node: Node, callback: (node: Node) => void) {
   unistUtilVisit(node, callback)
 }
-
-export { remove } from 'unist-util-remove'
-export { map } from 'unist-util-map'
 
 /**
  * 获取 markdown 的 yaml 元数据
@@ -47,4 +44,21 @@ export function setYamlMeta(root: Root, meta: any) {
     type: 'yaml',
     value: yaml.stringify(meta).trim(),
   } as YAML)
+}
+
+/**
+ * 映射一棵 ast 树
+ * 注：其中会执行真实的修改操作
+ * @param tree
+ * @param fn
+ * @returns
+ */
+export function flatMap<T extends Node>(tree: T, fn: (node: Node) => Node[]): T {
+  visit(tree, (node) => {
+    if ('children' in node) {
+      const p = node as Parent
+      p.children = p.children.flatMap((node) => fn(flatMap(node, fn))) as any
+    }
+  })
+  return tree
 }

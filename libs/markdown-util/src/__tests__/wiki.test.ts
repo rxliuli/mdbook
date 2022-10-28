@@ -1,8 +1,10 @@
 import { expect, it } from 'vitest'
-import { fromMarkdown, Paragraph, Text, Root } from '../parse'
+import { fromMarkdown, Paragraph, Text, Root, toMarkdown, ToMarkdownExtension, MdastExtension } from '../parse'
 import { inspect } from 'unist-util-inspect'
-import { visit } from '../utils'
 import { u } from 'unist-builder'
+import { Node } from 'unist-util-visit'
+import { flatMap } from '../utils'
+import { select, selectAll } from 'unist-util-select'
 
 function join<T>(a: T[], sep: T): T[] {
   const r: T[] = []
@@ -27,26 +29,42 @@ it('split', () => {
   expect(split('hello world', ['o', 'l'])).deep.eq(['he', 'l', 'l', 'o', ' w', 'o', 'r', 'l', 'd'])
 })
 
-function parseWikiLink(root: Root): Root {
-  visit(root, (node) => {
-    if (node.type === 'paragraph') {
-      const p = node as Paragraph
-      p.children = p.children.flatMap((item) => {
-        if (item.type !== 'text') {
-          return [item]
-        }
-        const value = (item as Text).value
-        const matchs = value.match(/!\[\[.+\]\]/g) ?? []
-        return split(value, matchs).map((s) => {
-          if (!/!\[\[.+\]\]/.test(s)) {
-            return u('text', s) as Text
+interface WikiLink extends Node {
+  value: string
+}
+
+function wikiLinkFromMarkdown(): MdastExtension {
+  return {
+    transforms: [
+      (root) => {
+        return flatMap(root, (item) => {
+          if (item.type !== 'text') {
+            return [item]
           }
-          return u('wiki', s) as any
+          const value = (item as Text).value
+          const matchs = value.match(/!?\[\[.+\]\]/g) ?? []
+          return split(value, matchs).map((s) => {
+            if (!/!?\[\[.+\]\]/.test(s)) {
+              return u('text', s) as Text
+            }
+            return u('wiki', {
+              value: s,
+            }) as WikiLink as any
+          })
         })
-      })
-    }
-  })
-  return root
+      },
+    ],
+  }
+}
+
+function wikiLinkToMarkdown(): ToMarkdownExtension {
+  return {
+    handlers: {
+      wiki: (node) => {
+        return (node as WikiLink).value
+      },
+    },
+  }
 }
 
 it('vite', () => {
@@ -62,7 +80,13 @@ Support ![[Video.mp4]]
 Support ![[Embed note]]
 Support ![[Embed note#heading]]
   `.trim()
-  const root = fromMarkdown(content)
-  parseWikiLink(root)
-  console.log(inspect(root))
+  const root = fromMarkdown(content, {
+    mdastExtensions: [wikiLinkFromMarkdown()],
+  })
+  expect(selectAll('wiki', root).length).eq(10)
+  expect(
+    toMarkdown(root, {
+      extensions: [wikiLinkToMarkdown()],
+    }).trim(),
+  ).eq(content)
 })
