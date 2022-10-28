@@ -9,6 +9,10 @@ import type { Extension as MicromarkSyntaxExtension } from 'micromark-util-types
 import type { Extension as MdastExtension } from 'mdast-util-from-markdown'
 
 export type { Root, Image, Heading, YAML, Paragraph, Text, Link, Parent } from 'mdast'
+export type { MicromarkSyntaxExtension, MdastExtension, TmOptions as ToMarkdownExtension }
+export type { Node } from 'unist'
+export { u } from 'unist-builder'
+export { select, selectAll } from 'unist-util-select'
 
 /**
  * 解析 markdown 文本为 ast
@@ -22,7 +26,6 @@ export function fromMarkdown(content: string, options?: FmOptions): Root {
     mdastExtensions: [frontmatterFromMarkdown(['yaml']), gfmFromMarkdown()].concat(options?.mdastExtensions ?? []),
   })
 }
-export { MicromarkSyntaxExtension, MdastExtension, TmOptions as ToMarkdownExtension }
 
 /**
  * 将 markdown ast 转换为文本

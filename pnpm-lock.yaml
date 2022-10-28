@@ -170,6 +170,7 @@ importers:
       vitest: ^0.23.4
       yaml: ^2.1.1
     dependencies:
+      '@types/unist': 2.0.6
       hast-util-to-html: 8.0.3
       mdast-util-from-markdown: 1.2.0
       mdast-util-frontmatter: 1.0.0
@@ -194,7 +195,6 @@ importers:
       '@types/lodash-es': 4.17.6
       '@types/mdast': 3.0.10
       '@types/node': 18.6.5
-      '@types/unist': 2.0.6
       fs-extra: 10.1.0
       lodash-es: 4.17.21
       micromark: 3.1.0
