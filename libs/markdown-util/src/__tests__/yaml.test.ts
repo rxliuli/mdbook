@@ -1,7 +1,60 @@
-import { expect, it } from "vitest";
-import { stringify } from 'yaml'
+import { expect, it } from 'vitest'
+import { fromMarkdown, select, toMarkdown, YAML } from '../parse'
+import { stringify } from '../stringify'
+import { getYamlMeta, setYamlMeta, visit } from '../utils'
 
-it('stringify', () => {
-  const r = stringify({ s: ['a', 'b'] })
-  expect(r.trim()).not.toBe(r)
+it('yaml', () => {
+  const str = `
+---
+title: hello world
+date: 2022-08-11
+---
+
+content
+`.trim()
+  const root = fromMarkdown(str)
+  const meta = select('yaml', root) as YAML
+  expect(stringify(root)).toBe('<p>content</p>')
+  expect(meta.value).toBe('title: hello world\ndate: 2022-08-11')
+})
+
+it('update yaml', () => {
+  const str = `
+---
+title: hello world
+date: 2022-08-11
+---
+
+content
+  `.trim()
+  const root = fromMarkdown(str)
+
+  const meta = getYamlMeta<{ title: string; date: string }>(root)
+
+  expect(meta).toEqual({ title: 'hello world', date: '2022-08-11' })
+  const title = 'hello'
+  const date = new Date().toLocaleDateString()
+  meta.title = title
+  setYamlMeta(root, { title, date })
+  expect(getYamlMeta(root)).toEqual({ title, date })
+
+  const r = toMarkdown(root)
+  expect(r.includes(title)).toBeTruthy()
+  expect(r.includes(date)).toBeTruthy()
+})
+
+it('set yaml', () => {
+  const root = fromMarkdown('# hello')
+  const meta = { name: 'liuli', age: 17 }
+  setYamlMeta(root, meta)
+  const r = getYamlMeta(root)
+  expect(r).deep.eq(meta)
+})
+
+it.only('remove yaml', () => {
+  const root = fromMarkdown('# hello')
+  const meta = {}
+  setYamlMeta(root, null)
+  const r = toMarkdown(root)
+  console.log(r)
 })
