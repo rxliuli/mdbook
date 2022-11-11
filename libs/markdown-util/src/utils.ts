@@ -54,11 +54,12 @@ export function setYamlMeta(root: Root, meta: any) {
  * @returns
  */
 export function flatMap<T extends Node>(tree: T, fn: (node: Node) => Node[]): T {
-  visit(tree, (node) => {
+  function transform(node: Node): Node[] {
     if ('children' in node) {
-      const p = node as Parent
-      p.children = p.children.flatMap((node) => fn(flatMap(node, fn))) as any
+      const p = node as unknown as Parent
+      p.children = p.children.flatMap((item) => transform(item)) as any
     }
-  })
-  return tree
+    return fn(node)
+  }
+  return transform(tree)[0] as T
 }

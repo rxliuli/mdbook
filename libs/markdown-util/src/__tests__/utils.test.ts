@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { fromMarkdown, Heading, toMarkdown, Image, Paragraph, Text } from '../parse'
 import { stringify } from '../stringify'
-import { visit } from '../utils'
+import { flatMap, visit } from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello
@@ -55,4 +55,32 @@ it('remove space for strong after', () => {
     }
   })
   expect(stringify(root)).toBe('<p><strong>真没想到我这么快就要死了，</strong>她有些自暴自弃地想着。</p>')
+})
+
+it('flatMap', () => {
+  const md = `
+# hello
+
+- Helen Perez
+- Margaret Rodriguez
+  - Christopher Hall
+    - Kenneth Hernandez
+    - Eric Johnson
+      - Christopher Jackson
+      - Sandra Young
+        - Jose Clark
+          - Donna Young
+            1. Robert Johnson
+            2. Barbara Young
+            3. Timothy Gonzalez
+                - Jennifer Perez
+                  - Jose White
+            4. Edward Brown
+  `.trim()
+  const root = fromMarkdown(md)
+  const start = Date.now()
+  flatMap(root, (item) => {
+    return [item]
+  })
+  expect(Date.now() - start).lt(100)
 })
