@@ -1,7 +1,8 @@
+import { fromMarkdown } from 'mdast-util-from-markdown'
+import { toMarkdown } from 'mdast-util-to-markdown'
 import { expect, it } from 'vitest'
-import { fromMarkdown, Heading, toMarkdown, Image, Paragraph, Text } from '../parse'
 import { stringify } from '../stringify'
-import { visit } from '../utils'
+import { Heading, Paragraph, visit, Image, Text } from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello

@@ -1,10 +1,10 @@
 import { expect, it } from 'vitest'
-import { fromMarkdown, Paragraph, Text, Root, toMarkdown, ToMarkdownExtension, MdastExtension } from '../parse'
-import { inspect } from 'unist-util-inspect'
 import { u } from 'unist-builder'
 import { Node } from 'unist-util-visit'
-import { flatMap } from '../utils'
-import { select, selectAll } from 'unist-util-select'
+import { flatMap, MdastExtension, ToMarkdownExtension, Root, Text } from '../utils'
+import { selectAll } from 'unist-util-select'
+import { fromMarkdown } from 'mdast-util-from-markdown'
+import { toMarkdown } from 'mdast-util-to-markdown'
 
 function join<T>(a: T[], sep: T): T[] {
   const r: T[] = []
@@ -36,7 +36,7 @@ interface WikiLink extends Node {
 function wikiLinkFromMarkdown(): MdastExtension {
   return {
     transforms: [
-      (root) => {
+      (root: Root) => {
         return flatMap(root, (item) => {
           if (item.type !== 'text') {
             return [item]
@@ -60,8 +60,8 @@ function wikiLinkFromMarkdown(): MdastExtension {
 function wikiLinkToMarkdown(): ToMarkdownExtension {
   return {
     handlers: {
-      wiki: (node) => {
-        return (node as WikiLink).value
+      wiki: (node: WikiLink) => {
+        return node.value
       },
     },
   }

@@ -1,7 +1,6 @@
 import { expect, it } from 'vitest'
-import { fromMarkdown, toMarkdown, YAML } from '../parse'
+import { fromMarkdown, toMarkdown } from '../parse'
 import { stringify } from '../stringify'
-import { getYamlMeta, setYamlMeta, visit } from '../utils'
 
 it('basic', () => {
   const str = '## Hello **World**!'

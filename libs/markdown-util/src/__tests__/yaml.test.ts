@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
-import { fromMarkdown, select, toMarkdown, YAML } from '../parse'
+import { fromMarkdown, toMarkdown } from '../parse'
 import { stringify } from '../stringify'
-import { getYamlMeta, setYamlMeta, visit } from '../utils'
+import { getYamlMeta, select, setYamlMeta, YAML } from '../utils'
 
 it('yaml', () => {
   const str = `

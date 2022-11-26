@@ -5,14 +5,6 @@ import { frontmatterFromMarkdown, frontmatterToMarkdown } from 'mdast-util-front
 import { frontmatter } from 'micromark-extension-frontmatter'
 import { gfm } from 'micromark-extension-gfm'
 import { gfmFromMarkdown, gfmToMarkdown } from 'mdast-util-gfm'
-import type { Extension as MicromarkSyntaxExtension } from 'micromark-util-types'
-import type { Extension as MdastExtension } from 'mdast-util-from-markdown'
-
-export type { Root, Image, Heading, YAML, Paragraph, Text, Link, Parent } from 'mdast'
-export type { MicromarkSyntaxExtension, MdastExtension, TmOptions as ToMarkdownExtension }
-export type { Node } from 'unist'
-export { u } from 'unist-builder'
-export { select, selectAll } from 'unist-util-select'
 
 /**
  * 解析 markdown 文本为 ast

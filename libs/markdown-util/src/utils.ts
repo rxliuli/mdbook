@@ -1,6 +1,14 @@
 import { visit as unistUtilVisit, Node } from 'unist-util-visit'
-import { Parent, Root, YAML } from './parse'
+import { Parent, Root, YAML } from 'mdast'
 import * as yaml from 'yaml'
+
+export type { Root, Image, Heading, YAML, Paragraph, Text, Link, Parent } from 'mdast'
+export type { Node } from 'unist'
+export { u } from 'unist-builder'
+export { select, selectAll } from 'unist-util-select'
+export type { Extension as MicromarkSyntaxExtension } from 'micromark-util-types'
+export type { Extension as MdastExtension } from 'mdast-util-from-markdown'
+export type { Options as ToMarkdownExtension } from 'mdast-util-to-markdown'
 
 /**
  * 遍历 ast 节点
