@@ -1,7 +1,7 @@
 {
   "name": "@liuli-util/markdown-util",
   "type": "module",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "exports": {
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "setup": "pnpm build",
-    "build": "tsc && tsup",
+    "build": "tsup",
     "dev": "tsup-node --watch",
     "test": "vitest run"
   },
@@ -26,6 +26,7 @@
       "cjs"
     ],
     "sourcemap": true,
+    "dts": true,
     "clean": true
   },
   "publishConfig": {
