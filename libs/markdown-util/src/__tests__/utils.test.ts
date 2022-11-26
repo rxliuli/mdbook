@@ -1,8 +1,8 @@
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { toMarkdown } from 'mdast-util-to-markdown'
-import { expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { stringify } from '../stringify'
-import { Heading, Paragraph, visit, Image, Text } from '../utils'
+import { Heading, Paragraph, visit, Image, Text, u, selectAll } from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello
@@ -56,4 +56,21 @@ it('remove space for strong after', () => {
     }
   })
   expect(stringify(root)).toBe('<p><strong>真没想到我这么快就要死了，</strong>她有些自暴自弃地想着。</p>')
+})
+
+describe('selectAll', () => {
+  const root = u('blockquote', [
+    u('paragraph', [u('text', 'Alpha')]),
+    u('code', 'Charlie'),
+    u('paragraph', [u('text', 'Golf')]),
+  ])
+  it('basic', () => {
+    const r = selectAll('text,code', root)
+    expect(r.length).eq(3)
+  })
+  it('deep', () => {
+    const r = selectAll('paragraph,text', root)
+    // console.log(r)
+    expect(r.length).eq(4)
+  })
 })
