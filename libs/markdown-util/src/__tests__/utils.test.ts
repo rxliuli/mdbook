@@ -2,7 +2,7 @@ import { fromMarkdown } from 'mdast-util-from-markdown'
 import { toMarkdown } from 'mdast-util-to-markdown'
 import { describe, expect, it } from 'vitest'
 import { stringify } from '../stringify'
-import { Heading, Paragraph, visit, Image, Text, u, selectAll } from '../utils'
+import { Heading, Paragraph, visit, Image, Text, u, selectAll, flatMap } from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello
@@ -73,4 +73,31 @@ describe('selectAll', () => {
     // console.log(r)
     expect(r.length).eq(4)
   })
+})
+it('flatMap', () => {
+  const md = `
+# hello
+
+- Helen Perez
+- Margaret Rodriguez
+  - Christopher Hall
+    - Kenneth Hernandez
+    - Eric Johnson
+      - Christopher Jackson
+      - Sandra Young
+        - Jose Clark
+          - Donna Young
+            1. Robert Johnson
+            2. Barbara Young
+            3. Timothy Gonzalez
+                - Jennifer Perez
+                  - Jose White
+            4. Edward Brown
+  `.trim()
+  const root = fromMarkdown(md)
+  const start = Date.now()
+  flatMap(root, (item) => {
+    return [item]
+  })
+  expect(Date.now() - start).lt(100)
 })
