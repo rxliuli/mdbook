@@ -1,8 +1,8 @@
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { toMarkdown } from 'mdast-util-to-markdown'
 import { describe, expect, it } from 'vitest'
-import { stringify } from '../stringify'
-import { Heading, Paragraph, visit, Image, Text, u, selectAll, flatMap } from '../utils'
+import { stringify, toHtml } from '../stringify'
+import { Heading, Paragraph, visit, Image, Text, u, selectAll, flatMap, Strong } from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello
@@ -100,4 +100,29 @@ it('flatMap', () => {
     return [item]
   })
   expect(Date.now() - start).lt(100)
+})
+it('flatMap using parent', () => {
+  const s = `**真没想到我这么快就要死了，** 她有些自暴自弃地想着。`
+  const root = fromMarkdown(s)
+  expect(toHtml(root)).eq('<p><strong>真没想到我这么快就要死了，</strong> 她有些自暴自弃地想着。</p>')
+  flatMap(root, (item, i, p) => {
+    if (item.type === 'strong') {
+      const v = item as Strong
+      const next = p!.children[i + 1]
+      const s = (v.children[0] as Text).value
+      if (s) {
+        const last = s.slice(s.length - 1)
+        if (
+          next &&
+          next.type === 'text' &&
+          ['，', '。', '？', '！', '〉'].includes(last) &&
+          next.value.startsWith(' ')
+        ) {
+          next.value = next.value.trim()
+        }
+      }
+    }
+    return [item]
+  })
+  expect(toHtml(root)).eq('<p><strong>真没想到我这么快就要死了，</strong>她有些自暴自弃地想着。</p>')
 })

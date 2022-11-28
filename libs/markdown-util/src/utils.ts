@@ -1,6 +1,7 @@
 import { visit as unistUtilVisit, Node } from 'unist-util-visit'
 import { Parent, Root, YAML } from 'mdast'
 import * as yaml from 'yaml'
+import { select } from 'unist-util-select'
 
 export type {
   AlignType,
@@ -78,13 +79,8 @@ export function visit(node: Node, callback: (node: Node) => void) {
  * @returns
  */
 export function getYamlMeta<T>(root: Root): T {
-  let metaStr: string = ''
-  visit(root, (node) => {
-    if (node.type === 'yaml') {
-      metaStr = (node as YAML).value
-    }
-  })
-  return yaml.parse(metaStr)
+  const r = select('yaml', root)
+  return yaml.parse(r ? (r as YAML).value : '')
 }
 
 /**
@@ -93,20 +89,15 @@ export function getYamlMeta<T>(root: Root): T {
  * @returns
  */
 export function setYamlMeta(root: Root, meta: any) {
-  let flag = false
-  visit(root, (node) => {
-    if (node.type === 'yaml') {
-      ;(node as YAML).value = yaml.stringify(meta).trim()
-      flag = true
-    }
-  })
-  if (flag) {
-    return
+  const r = select('yaml', root) as YAML
+  if (r) {
+    r.value = yaml.stringify(meta).trim()
+  } else {
+    root.children.unshift({
+      type: 'yaml',
+      value: yaml.stringify(meta).trim(),
+    } as YAML)
   }
-  root.children.unshift({
-    type: 'yaml',
-    value: yaml.stringify(meta).trim(),
-  } as YAML)
 }
 
 /**
@@ -116,13 +107,13 @@ export function setYamlMeta(root: Root, meta: any) {
  * @param fn
  * @returns
  */
-export function flatMap<T extends Node>(tree: T, fn: (node: Node) => Node[]): T {
-  function transform(node: Node): Node[] {
+export function flatMap<T extends Node>(tree: T, fn: (node: Node, i: number, parent?: Parent) => Node[]): T {
+  function transform(node: Node, i: number, parent?: Parent): Node[] {
     if ('children' in node) {
       const p = node as unknown as Parent
-      p.children = p.children.flatMap((item) => transform(item)) as any
+      p.children = p.children.flatMap((item, i) => transform(item, i, p)) as any
     }
-    return fn(node)
+    return fn(node, i, parent)
   }
-  return transform(tree)[0] as T
+  return transform(tree, 0, undefined)[0] as T
 }
