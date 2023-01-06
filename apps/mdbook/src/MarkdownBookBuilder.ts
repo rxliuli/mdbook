@@ -38,7 +38,7 @@ export function extractTitle(root: Root) {
   let r: string = ''
   visit(root, (node) => {
     if (node.type === 'heading' && (node as Heading).depth === 1) {
-      r = (node as Heading).children.map(toMarkdown).join('').trim()
+      r = String((node as Heading).data).trim()
     }
   })
   if (!r) {
@@ -61,7 +61,7 @@ export class MarkdownBookBuilder {
     let r: string = ''
     visit(root, (node) => {
       if (node.type === 'heading' && (node as Heading).depth === 1) {
-        r = (node as Heading).children.map(toMarkdown).join('').trim()
+        r = String((node as Heading).data).trim()
       }
     })
     if (!r) {

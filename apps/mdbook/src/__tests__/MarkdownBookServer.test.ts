@@ -1,4 +1,4 @@
-import { it } from '@jest/globals'
+import { it } from 'vitest'
 import path from 'path'
 import { MarkdownBookServer } from '../MarkdownBookServer.js'
 

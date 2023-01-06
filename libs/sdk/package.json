@@ -21,7 +21,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@jest/globals": "^28.1.3",
     "@liuli-util/bundle": "workspace:^",
     "@types/fs-extra": "^9.0.13",
     "@types/mime-types": "^2.1.1",

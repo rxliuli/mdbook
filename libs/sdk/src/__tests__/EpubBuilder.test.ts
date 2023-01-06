@@ -1,7 +1,6 @@
-import { expect, it, beforeEach, describe } from "vitest";
+import { it, beforeEach, describe } from "vitest";
 import fsExtra from 'fs-extra'
 import path from 'path'
-import { beforeEach, describe, it } from '@jest/globals'
 import { EpubBuilder } from '../EpubBuilder.js'
 import { fileURLToPath } from 'url'
 import { v4 } from 'uuid'

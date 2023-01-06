@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, it } from '@jest/globals'
+import { afterEach, beforeEach, expect, it } from 'vitest'
 import cors from '@koa/cors'
 import Router from '@koa/router'
 import { Server } from 'http'
