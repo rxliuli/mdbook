@@ -2,6 +2,7 @@ import { visit as unistUtilVisit, Node } from 'unist-util-visit'
 import { Parent, Root, YAML } from 'mdast'
 import * as yaml from 'yaml'
 import { select } from 'unist-util-select'
+import { remove } from 'unist-util-remove'
 
 export type {
   AlignType,
@@ -86,9 +87,14 @@ export function getYamlMeta<T>(root: Root): T {
 /**
  * 设置 markdown 的 yaml 元数据
  * @param root
+ * @param meta 元数据，如果是 undefined/null 则元数据会被删除
  * @returns
  */
-export function setYamlMeta(root: Root, meta: any) {
+export function setYamlMeta(root: Root, meta: object | undefined | null) {
+  if (meta === undefined || meta === null) {
+    remove(root, 'yaml')
+    return
+  }
   const r = select('yaml', root) as YAML
   if (r) {
     r.value = yaml.stringify(meta).trim()

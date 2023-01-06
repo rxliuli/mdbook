@@ -51,10 +51,16 @@ it('set yaml', () => {
   expect(r).deep.eq(meta)
 })
 
-it.only('remove yaml', () => {
-  const root = fromMarkdown('# hello')
-  const meta = {}
+it('remove yaml', () => {
+  const root = fromMarkdown(
+    `
+---
+type: post
+---
+# hello
+  `.trim(),
+  )
   setYamlMeta(root, null)
   const r = toMarkdown(root)
-  console.log(r)
+  expect(r.includes('type: post')).false
 })
