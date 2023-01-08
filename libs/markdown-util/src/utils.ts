@@ -1,8 +1,10 @@
 import { visit as unistUtilVisit, Node } from 'unist-util-visit'
-import { Parent, Root, YAML } from 'mdast'
+import { Parent, PhrasingContent, Root, YAML } from 'mdast'
 import * as yaml from 'yaml'
 import { select } from 'unist-util-select'
 import { remove } from 'unist-util-remove'
+import { Extension } from 'mdast-util-from-markdown'
+import { Options as ToMarkdownExtension } from 'mdast-util-to-markdown'
 
 export type {
   AlignType,
@@ -122,4 +124,60 @@ export function flatMap<T extends Node>(tree: T, fn: (node: Node, i: number, par
     return fn(node, i, parent)
   }
   return transform(tree, 0, undefined)[0] as T
+}
+
+/**
+ * 支持自动将 \n 转换为 break 标签
+ * @link copy from https://github.com/remarkjs/remark-breaks/blob/main/index.js
+ * @returns
+ */
+export function breaksFromMarkdown(): Extension {
+  const find = /[\t ]*(?:\r?\n|\r)/g
+  return {
+    transforms: [
+      (tree) => {
+        unistUtilVisit(tree, 'text', (node, index, parent) => {
+          const result: PhrasingContent[] = []
+          let start = 0
+
+          find.lastIndex = 0
+
+          let match = find.exec(node.value)
+
+          while (match) {
+            const position = match.index
+
+            if (start !== position) {
+              result.push({ type: 'text', value: node.value.slice(start, position) })
+            }
+
+            result.push({ type: 'break' })
+            start = position + match[0].length
+            match = find.exec(node.value)
+          }
+
+          if (result.length > 0 && parent && typeof index === 'number') {
+            if (start < node.value.length) {
+              result.push({ type: 'text', value: node.value.slice(start) })
+            }
+
+            parent.children.splice(index, 1, ...result)
+            return index + result.length
+          }
+        })
+      },
+    ],
+  }
+}
+
+/**
+ * 将 break 标签转换为 \n 而非 \\n，与上面的 {@link breaksFromMarkdown} 配合使用
+ * @returns
+ */
+export function breaksToMarkdown(): ToMarkdownExtension {
+  return {
+    handlers: {
+      break: () => '\n',
+    },
+  }
 }

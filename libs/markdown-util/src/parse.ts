@@ -1,4 +1,4 @@
-import { fromMarkdown as fm, Options as FmOptions } from 'mdast-util-from-markdown'
+import { fromMarkdown as fm, Options as FmOptions, Extension } from 'mdast-util-from-markdown'
 import { Options as TmOptions, toMarkdown as tm } from 'mdast-util-to-markdown'
 import type { Content, Root } from 'mdast'
 import { frontmatterFromMarkdown, frontmatterToMarkdown } from 'mdast-util-frontmatter'

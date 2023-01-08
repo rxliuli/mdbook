@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 import { fromMarkdown, toMarkdown } from '../parse'
-import { stringify } from '../stringify'
+import { stringify, toHtml } from '../stringify'
 
 it('basic', () => {
   const str = '## Hello **World**!'

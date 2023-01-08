@@ -1,8 +1,21 @@
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { toMarkdown } from 'mdast-util-to-markdown'
+import { inspect } from 'unist-util-inspect'
 import { describe, expect, it } from 'vitest'
 import { stringify, toHtml } from '../stringify'
-import { Heading, Paragraph, visit, Image, Text, u, selectAll, flatMap, Strong } from '../utils'
+import {
+  Heading,
+  Paragraph,
+  visit,
+  Image,
+  Text,
+  u,
+  selectAll,
+  flatMap,
+  Strong,
+  breaksFromMarkdown,
+  breaksToMarkdown,
+} from '../utils'
 
 it('visit', () => {
   const ast = fromMarkdown(`# hello
@@ -125,4 +138,17 @@ it('flatMap using parent', () => {
     return [item]
   })
   expect(toHtml(root)).eq('<p><strong>真没想到我这么快就要死了，</strong>她有些自暴自弃地想着。</p>')
+})
+
+it('breaks', () => {
+  const s = 'test1\ntest2'
+  const root = fromMarkdown(s, {
+    mdastExtensions: [breaksFromMarkdown()],
+  })
+  expect(toHtml(root)).eq('<p>test1<br>\ntest2</p>')
+  expect(
+    toMarkdown(root, {
+      extensions: [breaksToMarkdown()],
+    }).trim(),
+  ).eq(s)
 })

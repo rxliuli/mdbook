@@ -1,6 +1,7 @@
+import { describe } from 'node:test'
 import { expect, it } from 'vitest'
 import { fromMarkdown, toMarkdown } from '../parse'
-import { stringify } from '../stringify'
+import { stringify, toHtml } from '../stringify'
 import { getYamlMeta, select, setYamlMeta, YAML } from '../utils'
 
 it('yaml', () => {
