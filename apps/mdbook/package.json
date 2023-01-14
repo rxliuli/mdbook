@@ -1,10 +1,8 @@
 {
   "name": "@liuli-util/mdbook",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
   "exports": {
@@ -14,10 +12,9 @@
   },
   "scripts": {
     "setup": "pnpm build",
-    "build": "dotenv -e .env.production -- bundle && tsc",
+    "build": "tsup src/index.ts src/bin.ts --dts --format esm --sourcemap --clean",
+    "dev": "pnpm build --watch",
     "start": "tsx src/bin.ts",
-    "dev": "dotenv -e .env.development -- tsx src/server.ts",
-    "dev-chokidar": "dotenv -e .env.development -- chokidar \"src/**/*.ts\" -c \"pnpm dev\"",
     "test": "vitest run"
   },
   "bin": {
@@ -28,8 +25,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@koa/cors": "^3.3.0",
-    "@koa/router": "^12.0.0",
     "@liuli-util/async": "^3.4.0",
     "@liuli-util/markdown-util": "workspace:^",
     "@liuli-util/mdbook-preview": "workspace:^",
@@ -38,24 +33,13 @@
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "gray-matter": "^4.0.3",
-    "koa": "^2.13.4",
-    "koa-better-http-proxy": "^0.2.10",
-    "koa-static": "^5.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@liuli-util/bundle": "workspace:^",
     "@types/fs-extra": "^9.0.13",
-    "@types/koa": "^2.13.5",
-    "@types/koa-mount": "^4.0.1",
-    "@types/koa-static": "^4.0.2",
-    "@types/koa__cors": "^3.3.0",
-    "@types/koa__router": "^8.0.11",
     "@types/node": "^18.7.1",
     "@types/uuid": "^8.3.4",
-    "chokidar-cli": "^3.0.0",
-    "dotenv-cli": "^6.0.0",
-    "kill-port": "^1",
+    "tsup": "^6.2.3",
     "tsx": "^3.8.1",
     "type-fest": "^2.18.0",
     "typescript": "^4.7.4",

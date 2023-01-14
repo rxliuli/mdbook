@@ -157,7 +157,7 @@ export class MarkdownBookBuilder {
           id: 'ch' + i.toString().padStart(4, '0'),
         }
       } catch (e) {
-        console.error('渲染章节出错', e)
+        console.error('渲染章节出错', section, e)
         throw e
       }
     })
