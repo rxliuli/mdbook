@@ -9,6 +9,6 @@
   "prettier": "@liuli-util/prettier-standard-config",
   "devDependencies": {
     "@liuli-util/prettier-standard-config": "^0.3.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.8.3"
   }
 }

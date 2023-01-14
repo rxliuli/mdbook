@@ -1,1 +1,1 @@
-export * from './MarkdownBookBuilder.js'
+export * from './MarkdownBookBuilder'

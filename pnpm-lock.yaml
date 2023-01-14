@@ -5,41 +5,15 @@ importers:
   .:
     specifiers:
       '@liuli-util/prettier-standard-config': ^0.3.0
-      prettier: ^2.7.1
+      prettier: ^2.8.3
     devDependencies:
-      '@liuli-util/prettier-standard-config': 0.3.0_prettier@2.7.1
-      prettier: 2.7.1
-
-  apps/bundle:
-    specifiers:
-      '@liuli-util/esbuild-plugins': ^0.1.2
-      '@types/fs-extra': ^9.0.13
-      '@types/node': ^18.7.1
-      commander: ^9.4.0
-      esbuild: ^0.15.1
-      fs-extra: ^10.1.0
-      json5: ^2.2.1
-      tsx: ^3.8.1
-      type-fest: ^2.18.0
-      typescript: ^4.7.4
-    dependencies:
-      '@liuli-util/esbuild-plugins': 0.1.2_esbuild@0.15.1
-      commander: 9.4.0
-      esbuild: 0.15.1
-      fs-extra: 10.1.0
-      json5: 2.2.1
-    devDependencies:
-      '@types/fs-extra': 9.0.13
-      '@types/node': 18.7.1
-      tsx: 3.8.1
-      type-fest: 2.18.0
-      typescript: 4.7.4
+      '@liuli-util/prettier-standard-config': 0.3.0_prettier@2.8.3
+      prettier: 2.8.3
 
   apps/mdbook:
     specifiers:
-      '@liuli-util/async': ^3.4.0
+      '@liuli-util/async': ^3.6.0
       '@liuli-util/markdown-util': workspace:^
-      '@liuli-util/mdbook-preview': workspace:^
       '@liuli-util/mdbook-sdk': workspace:^
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.7.1
@@ -55,9 +29,8 @@ importers:
       uuid: ^8.3.2
       vitest: ^0.23.4
     dependencies:
-      '@liuli-util/async': 3.4.0
+      '@liuli-util/async': 3.6.0
       '@liuli-util/markdown-util': link:../../libs/markdown-util
-      '@liuli-util/mdbook-preview': link:../preview
       '@liuli-util/mdbook-sdk': link:../../libs/sdk
       commander: 9.4.0
       fast-glob: 3.2.11
@@ -103,7 +76,6 @@ importers:
 
   libs/markdown-util:
     specifiers:
-      '@liuli-util/bundle': workspace:^
       '@types/fs-extra': ^9.0.13
       '@types/lodash-es': ^4.17.6
       '@types/mdast': ^3.0.10
@@ -155,7 +127,6 @@ importers:
       unist-util-visit-parents: 5.1.0
       yaml: 2.1.1
     devDependencies:
-      '@liuli-util/bundle': link:../../apps/bundle
       '@types/fs-extra': 9.0.13
       '@types/lodash-es': 4.17.6
       '@types/node': 18.6.5
@@ -170,7 +141,6 @@ importers:
 
   libs/sdk:
     specifiers:
-      '@liuli-util/bundle': workspace:^
       '@types/fs-extra': ^9.0.13
       '@types/mime-types': ^2.1.1
       '@types/node': ^18.6.3
@@ -178,6 +148,7 @@ importers:
       fs-extra: ^10.1.0
       jszip: ^3.10.0
       mime-types: ^2.1.35
+      tsup: ^6.2.3
       typescript: ^4.7.4
       uuid: ^8.3.2
       vitest: ^0.23.4
@@ -185,12 +156,12 @@ importers:
       jszip: 3.10.0
       mime-types: 2.1.35
     devDependencies:
-      '@liuli-util/bundle': link:../../apps/bundle
       '@types/fs-extra': 9.0.13
       '@types/mime-types': 2.1.1
       '@types/node': 18.6.3
       '@types/uuid': 8.3.4
       fs-extra: 10.1.0
+      tsup: 6.2.3_typescript@4.7.4
       typescript: 4.7.4
       uuid: 8.3.2
       vitest: 0.23.4
@@ -516,6 +487,7 @@ packages:
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@eslint/eslintrc/1.3.0:
@@ -604,8 +576,8 @@ packages:
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
     dev: true
 
-  /@liuli-util/async/3.4.0:
-    resolution: {integrity: sha512-rSZsshYR4mBpVNa5WDpAMmVRAUAlzxqaXwSlnI5nHp1fAQ+vjlryBaCqNr189w4poEBl15M6lKzxLLk5SalB4g==}
+  /@liuli-util/async/3.6.0:
+    resolution: {integrity: sha512-cUPE7D7uRToGZEakaC2KzT7S9yQsnk1XYtxTWCTh2sJZkL+PKvJNaoBkgX62gdmYDQ6tfxLZbSPnL09/ZG/LuA==}
     dev: false
 
   /@liuli-util/cli/3.21.0_typescript@4.7.4:
@@ -648,16 +620,6 @@ packages:
       '@commitlint/config-conventional': 12.1.4
     dev: true
 
-  /@liuli-util/esbuild-plugins/0.1.2_esbuild@0.15.1:
-    resolution: {integrity: sha512-FAu9+37S+fuv/0pYBrrXyr10XsKrL2OvijYYy/25htTogUmMvpPa+e4xJk0gDwIUBplRF6qGYRIEG3d7g7jtAw==}
-    peerDependencies:
-      esbuild: ^0.14.39
-    dependencies:
-      esbuild: 0.15.1
-      fs-extra: 10.1.0
-      utility-types: 3.10.0
-    dev: false
-
   /@liuli-util/eslint-config-react-ts/0.2.1_typescript@4.7.4:
     resolution: {integrity: sha512-bIpN73a7E7Zfd+FxbEjrDa8eNOv9PBJGcHdib4I9jhaXnNnY8eSaEbWQtnxsoS6ywr/k6iE5XjRtF6UoIRw7Gw==}
     peerDependencies:
@@ -693,12 +655,12 @@ packages:
     resolution: {integrity: sha512-0p1uMAj7WLx3HxiH3dy44NwQbyqezI6KZzlM1ldqZ+WlnJWFsqAD4eGhAnGWuZa64hN/S+eH6XpwcbAZPRqCtQ==}
     dev: true
 
-  /@liuli-util/prettier-standard-config/0.3.0_prettier@2.7.1:
+  /@liuli-util/prettier-standard-config/0.3.0_prettier@2.8.3:
     resolution: {integrity: sha512-3cwp9oCh8jy9jbmqdOKHfSkfUbIwNW+7Sr5bX/ziGg5XxtdkUB5tkaqcx+P9/xpQL+oiJUVkZD22gRTVD/K4fg==}
     peerDependencies:
       prettier: ^2
     dependencies:
-      prettier: 2.7.1
+      prettier: 2.8.3
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -1631,6 +1593,7 @@ packages:
     cpu: [x64]
     os: [android]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-android-arm64/0.13.15:
@@ -1665,6 +1628,7 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-darwin-64/0.13.15:
@@ -1699,6 +1663,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-darwin-arm64/0.13.15:
@@ -1733,6 +1698,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-freebsd-64/0.13.15:
@@ -1767,6 +1733,7 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-freebsd-arm64/0.13.15:
@@ -1801,6 +1768,7 @@ packages:
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-32/0.13.15:
@@ -1835,6 +1803,7 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-64/0.13.15:
@@ -1869,6 +1838,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-arm/0.13.15:
@@ -1903,6 +1873,7 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-arm64/0.13.15:
@@ -1937,6 +1908,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-mips64le/0.13.15:
@@ -1971,6 +1943,7 @@ packages:
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-ppc64le/0.13.15:
@@ -2005,6 +1978,7 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-riscv64/0.14.51:
@@ -2031,6 +2005,7 @@ packages:
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-linux-s390x/0.14.51:
@@ -2057,6 +2032,7 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-netbsd-64/0.13.15:
@@ -2091,6 +2067,7 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-openbsd-64/0.13.15:
@@ -2125,6 +2102,7 @@ packages:
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-sunos-64/0.13.15:
@@ -2159,6 +2137,7 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-windows-32/0.13.15:
@@ -2193,6 +2172,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-windows-64/0.13.15:
@@ -2227,6 +2207,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild-windows-arm64/0.13.15:
@@ -2261,6 +2242,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /esbuild/0.13.15:
@@ -2371,6 +2353,7 @@ packages:
       esbuild-windows-32: 0.15.1
       esbuild-windows-64: 0.15.1
       esbuild-windows-arm64: 0.15.1
+    dev: true
 
   /escalade/3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
@@ -3076,6 +3059,7 @@ packages:
     resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
     engines: {node: '>=6'}
     hasBin: true
+    dev: true
 
   /jsonc-parser/3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
@@ -3931,8 +3915,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier/2.7.1:
-    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+  /prettier/2.8.3:
+    resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
@@ -4690,11 +4674,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  /utility-types/3.10.0:
-    resolution: {integrity: sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg==}
-    engines: {node: '>= 4'}
-    dev: false
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}

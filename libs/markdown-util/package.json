@@ -7,29 +7,17 @@
   "exports": "./dist/index.js",
   "scripts": {
     "setup": "pnpm build",
-    "build": "tsup",
+    "build": "tsup src/index.ts --dts --format esm --sourcemap --clean",
     "dev": "tsup-node --watch",
     "test": "vitest run",
     "docs-build": "typedoc src/index.ts",
     "docs-deploy": "gh-pages -d docs -e /api --add"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "format": [
-      "esm"
-    ],
-    "sourcemap": true,
-    "dts": true,
-    "clean": true
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@liuli-util/bundle": "workspace:^",
     "@types/fs-extra": "^9.0.13",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.6.5",

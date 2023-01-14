@@ -3,7 +3,7 @@ import fsExtra from 'fs-extra'
 import matter from 'gray-matter'
 import { Chapter, EpubBuilder, GenerateOptions, Image } from '@liuli-util/mdbook-sdk'
 import { v4 } from 'uuid'
-import async from '@liuli-util/async'
+import { AsyncArray } from '@liuli-util/async'
 import {
   fromMarkdown,
   Root,
@@ -11,12 +11,11 @@ import {
   visit,
   Image as ImageAst,
   Heading,
-  toMarkdown,
   Paragraph,
   Text,
+  select,
 } from '@liuli-util/markdown-util'
 
-const { AsyncArray } = async
 const { pathExists, stat, readFile } = fsExtra
 
 export interface BookConfig {
@@ -58,16 +57,8 @@ export class MarkdownBookBuilder {
     return r
   }
   getTitle(root: Root): string {
-    let r: string = ''
-    visit(root, (node) => {
-      if (node.type === 'heading' && (node as Heading).depth === 1) {
-        r = String((node as Heading).data).trim()
-      }
-    })
-    if (!r) {
-      throw new Error('找不到一级标题')
-    }
-    return r
+    const h1 = select('heading[depth=1]', root) as Heading
+    return String((h1.children[0] as Text).value).trim()
   }
 
   convertAst(root: Root, imageMap: Record<string, string>): Root {
@@ -215,7 +206,6 @@ export class MarkdownBookBuilder {
         title: item.title,
       })),
     }
-
     return await new EpubBuilder().gen(options).generateAsync({ type: 'nodebuffer' })
   }
 }
